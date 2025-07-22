@@ -23,7 +23,7 @@ const AdminSidebar = () => {
   return (
     <aside className="bg-white shadow h-full min-h-screen w-56 flex flex-col py-8 px-4 justify-between">
       <div>
-        <div className="text-2xl font-bold text-primary mb-10 text-center">Infinity Byte.</div>
+        <div className="text-2xl font-bold text-primary mb-10 text-center">Wahid Foods SMC Pvt. Ltd</div>
         <nav className="flex flex-col gap-2">
           {links.map((link) => (
             <NavLink

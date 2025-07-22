@@ -1,6 +1,7 @@
 // src/pages/admin/TransactionsPage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { PuffLoader } from "react-spinners"; 
 
 const TransactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
@@ -16,6 +17,9 @@ const TransactionsPage = () => {
         
         // data.data is the array of transactions
         setTransactions(Array.isArray(data.data) ? data.data : []);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       } catch (error) {
         setTransactions([]);
       } finally {
@@ -24,6 +28,15 @@ const TransactionsPage = () => {
     };
     fetchTransactions();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <PuffLoader color="#00c7fc" />
+      </div>
+    );
+  }
+
 
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen">

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { PuffLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const Promotion = () => {
   // State for the list of promotions
   const [promotions, setPromotions] = useState([]);
-  
+
   // State for the modal
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   // State for the form (can be for new or editing)
   const [promoName, setPromoName] = useState("");
   const [isEnable, setIsEnable] = useState(true); // New state for the checkbox
@@ -18,9 +19,14 @@ const Promotion = () => {
   // Fetch all promotions on component mount
   useEffect(() => {
     const fetchPromotions = async () => {
+      setLoading(true)
       try {
         const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/promotions`);
         setPromotions(Array.isArray(data.data) ? data.data : []);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+
       } catch (error) {
         toast.error("Failed to fetch promotions.");
         setPromotions([]);
@@ -49,7 +55,7 @@ const Promotion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const payload = { name: promoName, isEnable };
     const url = editingPromo
       ? `${import.meta.env.VITE_API_BASE_URL}/promotions/${editingPromo._id}`
@@ -72,23 +78,32 @@ const Promotion = () => {
       setLoading(false);
     }
   };
-  
+
   // Handle toggling the isEnable status directly from the table
   const handleToggleEnable = async (promo) => {
     console.log("Prp", promo);
-    
+
     const newStatus = !promo.isEnable;
-    try { 
+    try {
       const { data } = await axios.patch(
         `${import.meta.env.VITE_API_BASE_URL}/promotions/${promo._id}`,
         { isEnable: newStatus }
       );
       setPromotions(promotions.map(p => (p._id === promo._id ? data.data : p)));
-      toast.success(`Promotion ${newStatus ? 'enabled' : 'disabled'}.`);
+
     } catch (error) {
       toast.error("Failed to update status.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <PuffLoader color="#00c7fc" />
+      </div>
+    );
+  }
+
 
   // Handle deleting a promotion
   const handleDelete = async (promoId) => {
@@ -156,19 +171,18 @@ const Promotion = () => {
                     <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 md:justify-end">
                       <button
                         onClick={() => handleToggleEnable(promo)}
-                        className={`w-20 px-3 py-1 rounded text-white text-xs font-semibold text-center transition-colors ${
-                          promo.isEnable ? "bg-gray-500 hover:bg-gray-600" : "bg-green-500 hover:bg-green-600"
-                        }`}
+                        className={`w-20 px-3 py-1 rounded text-white text-xs font-semibold text-center transition-colors ${promo.isEnable ? "bg-gray-500 hover:bg-gray-600" : "bg-green-500 hover:bg-green-600"
+                          }`}
                       >
                         {promo.isEnable ? "Disable" : "Enable"}
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleEditClick(promo)}
                         className="w-20 px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-semibold text-center transition-colors"
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleDelete(promo._id)}
                         className="w-20 px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-xs font-semibold text-center transition-colors"
                       >

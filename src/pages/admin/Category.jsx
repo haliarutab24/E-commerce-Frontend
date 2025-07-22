@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { PuffLoader } from "react-spinners"; 
 
 const Category = () => {
   // State for the list of categories
@@ -18,9 +19,13 @@ const Category = () => {
   // Fetch all categories
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true)
       try {
         const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/categories`);
         setCategories(Array.isArray(data.data) ? data.data : []);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       } catch (error) {
         toast.error("Failed to fetch categories.");
         setCategories([]);
@@ -28,6 +33,14 @@ const Category = () => {
     };
     fetchCategories();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <PuffLoader color="#00c7fc" />
+      </div>
+    );
+  }
 
   // Open modal for adding
   const handleAddClick = () => {

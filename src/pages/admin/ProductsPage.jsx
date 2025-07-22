@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Link,useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Select from 'react-select'; // Added for multi-select category
+import { PuffLoader } from "react-spinners"; 
 
 // Initial state for the edit form
 const initialFormState = {
@@ -49,7 +50,9 @@ const ProductsPage = () => {
         
         setCategories(catRes.data.data.filter(c => c.isEnable));
         setPromotions(promoRes.data.data.filter(p => p.isEnable));
-
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       } catch (error) {
         toast.error("Failed to fetch initial data.");
       } finally {
@@ -59,6 +62,15 @@ const ProductsPage = () => {
     fetchData();
   }, []);
 
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <PuffLoader color="#00c7fc" />
+      </div>
+    );
+  }
+  
   // Open the edit modal and populate the form
   const handleEdit = (product) => {
     setEditingProduct(product);
