@@ -1,17 +1,27 @@
-// src/components/Carousel.jsx
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
 
-const Carousel = ({ images }) => {
+const Carousel = () => {
   const [current, setCurrent] = useState(0);
   const slideRef = useRef();
+  const textRef = useRef();
+
+  // Image from public/images folder
+  const images = [
+    "/images/Hero.png", // Your image filename
+  ];
 
   useEffect(() => {
     gsap.fromTo(
       slideRef.current,
-      { opacity: 0, x: -50 },
-      { opacity: 1, x: 0, duration: 0.8 }
+      { opacity: 0 },
+      { opacity: 1, duration: 1, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      textRef.current,
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }
     );
   }, [current]);
 
@@ -24,35 +34,43 @@ const Carousel = ({ images }) => {
   };
 
   return (
-    <div className="w-full h-full overflow-hidden relative">
-      <div className="relative w-full h-full" ref={slideRef}>
-        <img
-          src={images[current]}
-          alt={`Slide ${current}`}
-          className="w-full h-full object-cover"
+    <div className="w-full h-[500px] overflow-hidden relative">
+      <div
+        className="relative w-full h-full"
+        ref={slideRef}
+        style={{
+          background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${images[current]}) no-repeat center 30%/cover`,
+          userSelect: "none",
+          // Removed pointerEvents: "none" to allow interaction
+        }}
+        onContextMenu={(e) => e.preventDefault()}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${images[current]})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center 30%",
+            filter: "brightness(0.8)",
+          }}
         />
-
-        <Link to="/products">
-
-          <div className="absolute inset-0 flex items-end mb-5 justify-center pointer-events-none">
-            <button className="bg-primary hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded pointer-events-auto">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-6">
+          <h1
+            ref={textRef}
+            className="text-4xl md:text-5xl font-bold mb-4 text-center animate-pulse"
+            style={{ textShadow: "2px 2px 8px rgba(0, 0, 0, 0.9)" }}
+          >
+            Welcome to Wahid Foods SMC PVT.Ltd
+          </h1>
+          <p className="text-lg md:text-xl mb-8 text-center max-w-2xl">
+            Discover the best products with unbeatable deals!
+          </p>
+          <Link to="/products">
+            <button className="bg-[#89B9AD] hover:bg[#66D2CE] text-white font-semibold px-8 py-4 rounded-lg shadow-2xl transform hover:scale-110 transition-all duration-300">
               Shop Now
             </button>
-          </div>
-        </Link>
-        {/* Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/70 hover:bg-white text-black rounded-full p-2"
-        >
-          ◀
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/70 hover:bg-white text-black rounded-full p-2"
-        >
-          ▶
-        </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

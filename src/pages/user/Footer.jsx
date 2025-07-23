@@ -4,41 +4,56 @@ import { Store, Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-muted mt-20 border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="bg-[#000000] mt-20 border-t-2 border-[#89B9AD]">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2 font-bold text-2xl text-primary">
-              <Store className="w-8 h-8" />
-              <span>ShopHub</span>
+          <div className="space-y-6">
+            <Link
+              to="/"
+              className="flex items-center gap-3 font-bold text-3xl text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+            >
+              <Store className="w-10 h-10 text-[#89B9AD]" />
+              <span>Wahid Foods SMC PVT.Ltd</span>
             </Link>
-            <p className="text-muted-foreground text-base">
-              Your one-stop destination for quality products and exceptional shopping experience.
+            <p className="text-[#89B9AD] text-base leading-relaxed">
+              Your premier destination for quality products and an exceptional shopping experience.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-3 text-lg">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Quick Links</h3>
+            <ul className="space-y-3">
               <li>
-                <Link to="/products" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/products"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   All Products
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/about"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/contact"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   Contact
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/faq"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   FAQ
                 </Link>
               </li>
@@ -47,25 +62,37 @@ const Footer = () => {
 
           {/* Customer Service */}
           <div>
-            <h3 className="font-semibold mb-3 text-lg">Customer Service</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Customer Service</h3>
+            <ul className="space-y-3">
               <li>
-                <Link to="/shipping" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/shipping"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   Shipping Info
                 </Link>
               </li>
               <li>
-                <Link to="/returns" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/returns"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   Returns
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/support"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   Support
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  to="/privacy"
+                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                >
                   Privacy Policy
                 </Link>
               </li>
@@ -74,19 +101,19 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-semibold mb-3 text-lg">Stay Updated</h3>
-            <p className="text-muted-foreground text-sm mb-3">
+            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Stay Updated</h3>
+            <p className="text-[#89B9AD] text-sm mb-4">
               Subscribe to get special offers and updates.
             </p>
-            <form className="flex flex-col gap-2">
+            <form className="flex flex-col gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="rounded-md border border-border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary transition"
+                className="rounded-md border border-[#89B9AD]/50 bg-[#000000] text-[#89B9AD] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#89B9AD] transition"
               />
               <button
                 type="submit"
-                className="bg-primary hover:bg-blue-700 text-white font-semibold rounded-md py-2 transition"
+                className="bg-gradient-to-r from-[#89B9AD] to-[#89B9AD] hover:from-[#C7DCA7] hover:to-[#89B9AD] text-[] hover:text-[#FFFFFF] font-semibold rounded-md py-2 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Subscribe
               </button>
@@ -94,12 +121,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground text-sm">
-            © 2024 ShopHub. All rights reserved.
+        <div className="border-t border-[#89B9AD]/50 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[#89B9AD] text-sm">
+            © 2025 Wahid Foods SMC PVT.Ltd. All rights reserved.
           </p>
-          <p className="text-muted-foreground text-sm flex items-center gap-1">
-            Made with <Heart className="w-4 h-4 text-red-500" /> by ShopHub Team
+          <p className="text-[#89B9AD] text-sm flex items-center gap-2">
+            Made with{' '}
+            <Heart className="w-5 h-5 text-[#89B9AD] animate-pulse" /> by Wahid Foods Team
           </p>
         </div>
       </div>
