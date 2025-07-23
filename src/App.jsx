@@ -29,6 +29,7 @@ import Category from "./pages/admin/Category";
 import { useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Success from "./pages/Success";
+import Cancel from "./pages/user/Cancel";
 
 
 function AppContent() {
@@ -57,6 +58,7 @@ function AppContent() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path='/orders' element={<Order />} />
           <Route path='/success' element={<Success />} />
+          <Route path='/cancel' element={<Cancel />} />
           <Route path='/contact' element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/disclaimer" element={<Disclaimer />} />

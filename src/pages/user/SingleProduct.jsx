@@ -110,7 +110,7 @@ const SingleProduct = () => {
         <img
           src={product.images?.[imageIndex]?.url || "https://via.placeholder.com/400"}
           alt={product.name}
-          className="w-full max-w-md h-[400px] object-cover rounded-lg shadow"
+          className="w-full max-w-md h-[750px] object-cover rounded-lg shadow"
         />
         {/* Thumbnails */}
         {product.images?.length > 1 && (

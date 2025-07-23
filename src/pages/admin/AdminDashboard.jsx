@@ -17,21 +17,22 @@ const AdminDashboard = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [transactions, setTransactions] = useState([]);
   useEffect(() => {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
-        const [allProductsRes, recentProductsRes, usersRes] = await Promise.all([
+        const [allProductsRes, recentProductsRes, usersRes, transactionsRes] = await Promise.all([
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/products`),
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/products?limit=5&sort=desc`),
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/users`),
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/transactions`),
         ]);
 
         setAllProducts(allProductsRes.data.data);
         setRecentProducts(recentProductsRes.data.data);
         setUsers(usersRes.data.data);
-
+        setTransactions(transactionsRes.data.data);
         // ✅ Delay loader for 2 seconds regardless of speed
         setTimeout(() => {
           setLoading(false);
@@ -74,7 +75,7 @@ const AdminDashboard = () => {
           <span className="text-gray-600 mt-2">Total Users</span>
         </div>
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">
-          <span className="text-2xl font-bold text-primary">Rs.5000</span>
+          <span className="text-2xl font-bold text-primary">Rs.{transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
           <span className="text-gray-600 mt-2">Total Transactions</span>
         </div>
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">

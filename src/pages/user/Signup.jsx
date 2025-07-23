@@ -71,7 +71,7 @@ const Signup = () => {
 
       {/* Signup Form */}
       <div className="relative z-10 bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        <h2 className="text-3xl font-bold mb-6 text-center text-[#00897B]">
           Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -126,14 +126,14 @@ const Signup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-semibold transition-all"
+            className="w-full bg-[#00897B] hover:bg-[#00897B]/80 text-white py-2 rounded-md font-semibold transition-all"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
         <div className="mt-4 text-center text-sm text-gray-700">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline font-medium">
+          <Link to="/login" className="text-[#00897B] hover:text-[#00897B]/80 font-medium">
             Login
           </Link>
         </div>

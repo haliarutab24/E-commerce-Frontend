@@ -115,9 +115,11 @@ const Navbar = () => {
           </Link>
           <Link to="/cart" className="relative">
             <FaShoppingCart className="text-xl text-[#00897B] hover:text-[#f5f6fa] transition-colors duration-300" />
-            <span className="absolute -top-2 -right-2 bg-[#89B9AD] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              {cartCount}
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#89B9AD] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
           {/* User Section */}
           {!userInfo ? (

@@ -19,11 +19,11 @@ const images = [
 const Home = () => {
   return (
      <div className="pt-2 w-full min-h-screen bg-[#ffffff] flex flex-col">
-      <div className="w-full h-[40rem]">
+      <div className="w-full h-[35rem]">
         <Carousel images={images} />
       </div>
 
-      <div className="my-10 px-10">
+      <div className="my-6 px-10">
         <Features />
       </div>
     </div>
