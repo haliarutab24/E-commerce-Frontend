@@ -1,36 +1,8 @@
 // src/pages/user/Orders.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-// Static orders data
-const orders = [
-  {
-    id: 1,
-    product: "Premium Wireless Headphones",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=120&fit=crop",
-    quantity: 1,
-    price: 299.99,
-    date: "2024-06-01",
-    status: "Shipping",
-  },
-  {
-    id: 2,
-    product: "Smart Fitness Watch",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=120&fit=crop",
-    quantity: 2,
-    price: 399.98,
-    date: "2024-05-28",
-    status: "In Progress",
-  },
-  {
-    id: 3,
-    product: "Minimalist Desk Lamp",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=120&fit=crop",
-    quantity: 1,
-    price: 89.99,
-    date: "2024-05-20",
-    status: "Delivered",
-  },
-];
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const statusColor = (status) => {
   switch (status) {
@@ -39,8 +11,10 @@ const statusColor = (status) => {
     case "In Progress":
       return "text-yellow-600";
     case "Delivered":
+    case "completed":
       return "text-green-600";
     case "Cancelled":
+    case "failed":
       return "text-red-600";
     default:
       return "text-gray-600";
@@ -48,6 +22,31 @@ const statusColor = (status) => {
 };
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Get user info from localStorage (adjust key as needed)
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const userId = user?.id || user?._id;
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!userId) return;
+      try {
+        // Adjust endpoint as per your backend
+        const res = await axios.get(`${API_URL}/orders?userId=${userId}`);
+        // If your backend returns { success: true, data: [...] }
+        const data = res.data.data || res.data;
+        setOrders(data);
+      } catch (err) {
+        setOrders([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, [userId]);
+
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-primary text-center">
@@ -57,38 +56,48 @@ const Orders = () => {
         <table className="min-w-full text-sm">
           <thead>
             <tr className="bg-gray-100">
-              <th className="py-2 px-4 text-left">Product</th>
+              <th className="py-2 px-4 text-left">Product(s)</th>
               <th className="py-2 px-4 text-left">Quantity</th>
-              <th className="py-2 px-4 text-left">Price</th>
+              <th className="py-2 px-4 text-left">Total</th>
               <th className="py-2 px-4 text-left">Date</th>
               <th className="py-2 px-4 text-left">Status</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="border-b">
-                <td className="py-2 px-4 flex items-center gap-2">
-                  <img
-                    src={order.image}
-                    alt={order.product}
-                    className="w-12 h-12 object-cover rounded"
-                  />
-                  <span>{order.product}</span>
-                </td>
-                <td className="py-2 px-4">{order.quantity}</td>
-                <td className="py-2 px-4">₹{order.price.toFixed(2)}</td>
-                <td className="py-2 px-4">{order.date}</td>
-                <td className={`py-2 px-4 font-semibold ${statusColor(order.status)}`}>
-                  {order.status}
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="text-center py-6 text-gray-500">
+                  Loading...
                 </td>
               </tr>
-            ))}
-            {orders.length === 0 && (
+            ) : orders.length === 0 ? (
               <tr>
                 <td colSpan={5} className="text-center py-6 text-gray-500">
                   No orders found.
                 </td>
               </tr>
+            ) : (
+              orders.map((order) => (
+                <tr key={order._id} className="border-b">
+                  <td className="py-2 px-4">
+                    <ul>
+                      {order.products.map((prod, idx) => (
+                        <li key={idx}>
+                          {prod.name} {prod.quantity ? `x${prod.quantity}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td className="py-2 px-4">
+                    {order.products.reduce((sum, prod) => sum + (prod.quantity || 1), 0)}
+                  </td>
+                  <td className="py-2 px-4">Rs.{order.totalAmount.toFixed(2)}</td>
+                  <td className="py-2 px-4">{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td className={`py-2 px-4 font-semibold ${statusColor(order.paymentStatus)}`}>
+                    {order.paymentStatus}
+                  </td>
+                </tr>
+              ))
             )}
           </tbody>
         </table>

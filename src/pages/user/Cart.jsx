@@ -1,46 +1,70 @@
-import React, { useState } from "react";
-import { products } from "../../data/products";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import PuffLoader from "react-spinners/PuffLoader";
 import { loadStripe } from "@stripe/stripe-js";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Cart = () => {
-  const [cart, setCart] = useState(products);
+  const [cartItems, setCartItems] = useState([]); // [{product, quantity}]
+  const [loading, setLoading] = useState(true);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
   const user = JSON.parse(localStorage.getItem('userInfo'));
-  console.log(user.id);
+  const userId = user?.id || user?._id;
 
-  const handleQuantityChange = (id, delta) => {
-    setCart((prevCart) =>
-      prevCart.map((item) => {
-        if (item.id !== id) return item;
+  useEffect(() => {
+    const fetchCart = async () => {
+      setLoading(true);
 
-        const currentQuantity = Number(item.quantity) || 1;
-        const maxStock = Number(item.stock) || 1;
-        const newQuantity = currentQuantity + delta;
+      if (!userId) {
+        console.warn("No userId found, skipping cart fetch.");
+        setLoading(false);
+        return;
+      }
+      try {
+        const cartRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/cart/${userId}`);
+        console.log("cartRes",cartRes);
+        const cart = cartRes.data;
 
-        return {
-          ...item,
-          quantity: Math.max(1, Math.min(newQuantity, maxStock)),
-        };
-      })
-    );
-  };
+        // If your backend returns { success: true, data: { items: [...] } }
+        const items = cart.items || cart.data?.items || [];
 
-  const handleRemove = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-    toast.info("Item removed from cart");
-  };
+        // Now map over items
+        const cartWithDetails = items.map(cartItem => {
+          const product = cartItem.productId;
+          if (!product) {
+            console.warn(`❌ Product not found for cartItem:`, cartItem);
+            return null;
+          }
+          return { ...product, quantity: cartItem.quantity };
+        }).filter(Boolean);
+
+        setCartItems(cartWithDetails);
+      } catch (error) {
+        console.error("❌ Error fetching cart:", error);
+        toast.error("Failed to load cart.");
+        setCartItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCart();
+  }, [userId]);
 
   const handleCheckout = async () => {
-    const metadata = {
-      userId: user ? String(user.id) : '',
-      products: JSON.stringify(cart),
-    };
-    console.log('Stripe metadata:', metadata);
-
-    const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
-
+    setCheckoutLoading(true);
     try {
+      const metadata = {
+        userId: user ? String(user.id || user._id) : '',
+        products: JSON.stringify(cartItems),
+      };
+
+      const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
+
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
         {
@@ -49,11 +73,11 @@ const Cart = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: user ? String(user.id) : '',
-            items: cart.map((item) => ({
+            userId: user ? String(user.id || user._id) : '',
+            items: cartItems.map((item) => ({
               name: item.name,
-              image: item.image,
-              price: Math.round(item.price * 100),
+              image: item.images?.[0]?.url,
+              price: item.price ,
               quantity: item.quantity,
             })),
             success_url: `${window.location.origin}/success`,
@@ -63,33 +87,57 @@ const Cart = () => {
         }
       );
 
-      console.log(response);
-      
-
       const data = await response.json();
 
       if (data?.url) {
         window.location.href = data.url;
       } else {
         toast.error("Stripe checkout failed");
+        setCheckoutLoading(false);
       }
     } catch (error) {
       console.error("Stripe Checkout Error:", error);
       toast.error("Something went wrong during checkout.");
+      setCheckoutLoading(false);
     }
   };
 
-  const subtotal = cart.reduce(
+  const handleQuantityChange = (productId, delta) => {
+    setCartItems(prev =>
+      prev.map(item =>
+        item._id === productId
+          ? { ...item, quantity: Math.max(1, Math.min(item.quantity + delta, item.stock)) }
+          : item
+      )
+    );
+    // Optionally: send update to backend here
+  };
+
+  const handleRemove = (productId) => {
+    setCartItems(prev => prev.filter(item => item._id !== productId));
+    toast.info("Item removed from cart");
+    // Optionally: send remove to backend here
+  };
+
+  const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[80vh]">
+        <PuffLoader color="#00c7fc" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center text-primary">
         Your Cart
       </h1>
-      {cart.length === 0 ? (
+      {cartItems.length === 0 ? (
         <div className="text-center text-gray-500">
           Your cart is empty.
           <div className="mt-4">
@@ -106,13 +154,13 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="flex-1">
             <div className="bg-white rounded shadow p-4">
-              {cart.map((item) => (
+              {cartItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="flex items-center gap-4 border-b py-4 last:border-b-0"
                 >
                   <img
-                    src={item.image}
+                    src={item.images[0].url}
                     alt={item.name}
                     className="w-20 h-20 object-cover rounded"
                   />
@@ -121,7 +169,7 @@ const Cart = () => {
                     <p className="text-primary font-bold">Rs.{item.price}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
-                        onClick={() => handleQuantityChange(item.id, -1)}
+                        onClick={() => handleQuantityChange(item._id, -1)}
                         className="px-2 py-1 bg-gray-200 rounded"
                         disabled={item.quantity <= 1}
                       >
@@ -133,7 +181,7 @@ const Cart = () => {
                       </span>
 
                       <button
-                        onClick={() => handleQuantityChange(item.id, +1)}
+                        onClick={() => handleQuantityChange(item._id, +1)}
                         className="px-2 py-1 bg-gray-200 rounded"
                         disabled={item.quantity >= item.stock}
                       >
@@ -142,16 +190,16 @@ const Cart = () => {
 
                       <span
                         className={`ml-4 text-xs font-medium ${
-                          item.inStock ? "text-green-600" : "text-red-500"
+                          item.stock ? "text-green-600" : "text-red-500"
                         }`}
                       >
-                        {item.inStock ? "In Stock" : "Out of Stock"}
+                        {item.stock ? "In Stock" : "Out of Stock"}
                       </span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
                     <button
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() => handleRemove(item._id)}
                       className="text-red-500 hover:underline text-sm"
                     >
                       Remove
@@ -184,9 +232,17 @@ const Cart = () => {
 
               <button
                 onClick={handleCheckout}
-                className="block mt-6 w-full text-center bg-primary text-white py-2 rounded hover:bg-primary-dark font-semibold"
+                className="block mt-6 w-full text-center bg-primary text-white py-2 rounded hover:bg-primary-dark font-semibold disabled:opacity-50"
+                disabled={checkoutLoading}
               >
-                Proceed to Checkout
+                {checkoutLoading ? (
+                  <span className="flex items-center justify-center">
+                    <PuffLoader color="#fff" size={24} className="mr-2" />
+                    Processing...
+                  </span>
+                ) : (
+                  "Proceed to Checkout"
+                )}
               </button>
             </div>
           </div>

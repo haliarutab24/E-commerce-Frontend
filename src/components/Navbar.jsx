@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../context/authSlice"; // adjust path based on your structure
+import axios from 'axios';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -24,8 +25,42 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  
   // Replace this with your cart state/count
-  const cartCount = 2;
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const user = JSON.parse(localStorage.getItem('userInfo'));
+      const userId = user?.id;
+      if (!userId) return;
+
+      try {
+        const response = await axios.get(`${API_URL}/cart/${userId}`);
+        const cart = response.data;
+        const count = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+        setCartCount(count);
+      } catch (error) {
+        setCartCount(0);
+        console.error('Error fetching cart count:', error);
+      }
+    };
+
+    fetchCart(); // Initial fetch
+
+    // Listen for cart updates
+    const handleCartUpdate = () => fetchCart();
+    window.addEventListener('cartUpdated', handleCartUpdate);
+
+    // Optionally, keep your interval for background sync
+    const interval = setInterval(fetchCart, 20000);
+
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <nav
