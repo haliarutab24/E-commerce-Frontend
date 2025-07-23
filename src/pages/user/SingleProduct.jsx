@@ -51,9 +51,29 @@ const SingleProduct = () => {
   
 
 
-  const handleAddToCart = () => {
-    toast.success(`Added "${product.name}" to cart!`);
-    // Add to cart logic here
+  const handleAddToCart = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('userInfo')); // adjust key if needed
+      const userId = user?.id; // adjust property if needed
+      console.log("userId",userId);
+
+      if (!userId) {
+        toast.error('User not logged in');
+        return;
+      }
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/cart/add`,
+        {
+          userId, // pass userId here
+          productId: product._id,
+          quantity: 1,
+        }
+      );
+      toast.success('Added to cart!');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to add to cart');
+    }
   };
 
   if (loading) {
