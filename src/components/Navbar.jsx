@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../context/authSlice"; // adjust path based on your structure
 import axios from 'axios';
 
-
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef();
@@ -64,33 +63,59 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto py-3 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-primary">
-          Wahid Foods SMC Pvt. Ltd
-        </Link>
-        <div className="space-x-6 flex items-center">
-          <Link to="/products" className="text-gray-700 hover:text-primary">
+    <nav
+      className="bg-[#000000] shadow-md shadow-[#f5f6fa]/30 sticky top-0 z-50"
+      style={{ fontFamily: "'Poppins', sans-serif" }} // Custom font (add via Google Fonts)
+    >
+      <div className="container mx-auto py-3 flex justify-between items-center mr-12 pr-10">
+        <div className="flex items-center ml-6 pl-4">
+          <Link
+            to="/"
+            className="text-lg font-bold text-[#00897B] hover:text-[#f5f6fa] transition-colors duration-300"
+          >
+            Wahid Foods SMC 
+          </Link>
+        </div>
+        <div className="space-x-8 flex items-center">
+          <Link
+            to="/products"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             Products
           </Link>
-          <Link to="/return-policy" className="text-gray-700 hover:text-primary">
+          <Link
+            to="/return-policy"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             Return Policy
           </Link>
-          <Link to="/disclaimer" className="text-gray-700 hover:text-primary">
+          <Link
+            to="/disclaimer"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             Disclaimer
           </Link>
-          <Link to="/apps" className="text-gray-700 hover:text-primary">
+          <Link
+            to="/apps"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             Apps
           </Link>
-          <Link to="/about" className="text-gray-700 hover:text-primary">
+          <Link
+            to="/about"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             About
           </Link>
-          <Link to="/contact" className="text-gray-700 hover:text-primary">
+          <Link
+            to="/contact"
+            className="text-[#00897B] hover:text-[#f5f6fa] font-medium transition-colors duration-300"
+          >
             Contact
           </Link>
           <Link to="/cart" className="relative">
-            <FaShoppingCart className="text-xl text-gray-700 hover:text-primary" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            <FaShoppingCart className="text-xl text-[#00897B] hover:text-[#f5f6fa] transition-colors duration-300" />
+            <span className="absolute -top-2 -right-2 bg-[#89B9AD] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
               {cartCount}
             </span>
           </Link>
@@ -98,7 +123,7 @@ const Navbar = () => {
           {!userInfo ? (
             <Link
               to="/login"
-              className="text-gray-700 hover:text-primary font-medium"
+              className="text-[#00897B] hover:text-[#00897B] font-medium transition-colors duration-300"
             >
               Sign In
             </Link>
@@ -108,8 +133,8 @@ const Navbar = () => {
                 onClick={() => setShowDropdown((prev) => !prev)}
                 className="focus:outline-none flex items-center space-x-2"
               >
-                <FaUserCircle className="text-xl text-gray-700 hover:text-primary" />
-                <span className="text-gray-700 font-medium">
+                <FaUserCircle className="text-xl text-[#00897B] hover:text-[#f5f6fa] transition-colors duration-300" />
+                <span className="text-[#00897B] font-medium hover:text-[#f5f6fa] transition-colors duration-300">
                   {userInfo.username || userInfo.name || userInfo.email}
                 </span>
               </button>
@@ -117,20 +142,20 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg py-2 z-50">
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-[#00897B] hover:bg-[#f5f6fa]/20 hover:text-[#f5f6fa] transition-colors duration-300"
                     onClick={() => setShowDropdown(false)}
                   >
                     Profile
                   </Link>
                   <Link
                     to="/orders"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-[#00897B] hover:bg-[#00897B]/20 hover:text-[#f5f6fa] transition-colors duration-300"
                     onClick={() => setShowDropdown(false)}
                   >
                     Orders
                   </Link>
                   <button
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2 text-[#00897B] hover:bg-[#00897B]/20 hover:text-[#f5f6fa] transition-colors duration-300"
                     onClick={() => {
                       setShowDropdown(false);
                       dispatch(logout());

@@ -45,18 +45,18 @@ const Features = () => {
   return (
     <>
       {/* Featured Products Section */}
-      <section className="pt-10 pb-6">
+      <section className="pt-10 pb-6 bg-[#FFFFFF]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Featured Products</h2>
-            <p className="text-muted-foreground text-lg">
+            <h2 className="text-3xl lg:text-4xl font-bold text-[#89B9AD] mb-4">Featured Products</h2>
+            <p className="text-[#89B9AD] text-lg">
               Discover our handpicked selection of premium products
             </p>
           </div>
 
           {loading ? (
             <div className="flex justify-center items-center h-40">
-              <PuffLoader color="#00c7fc" />
+              <PuffLoader />
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -76,18 +76,18 @@ const Features = () => {
       </section>
 
       {/* Discount Products Section */}
-      <section className="py-10">
+      <section className="py-10 bg-[#FFFFFF]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Discount Products</h2>
-            <p className="text-muted-foreground text-lg">
+            <h2 className="text-3xl lg:text-4xl font-bold text-[#000000] mb-4">Discount Products</h2>
+            <p className="text-[#000000] text-lg">
               Great deals on your favorite items
             </p>
           </div>
 
           {loading ? (
             <div className="flex justify-center items-center h-40">
-              <PuffLoader color="#00c7fc" />
+              <PuffLoader color="#f2f4f5ff" />
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
