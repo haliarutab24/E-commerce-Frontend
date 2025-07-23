@@ -1,11 +1,13 @@
-// src/pages/user/Cart.jsx
 import React, { useState } from "react";
 import { products } from "../../data/products";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const [cart, setCart] = useState(products);
+  const user = JSON.parse(localStorage.getItem('userInfo'));
+  console.log(user.id);
 
   const handleQuantityChange = (id, delta) => {
     setCart((prevCart) =>
@@ -27,6 +29,54 @@ const Cart = () => {
   const handleRemove = (id) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
     toast.info("Item removed from cart");
+  };
+
+  const handleCheckout = async () => {
+    const metadata = {
+      userId: user ? String(user.id) : '',
+      products: JSON.stringify(cart),
+    };
+    console.log('Stripe metadata:', metadata);
+
+    const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user ? String(user.id) : '',
+            items: cart.map((item) => ({
+              name: item.name,
+              image: item.image,
+              price: Math.round(item.price * 100),
+              quantity: item.quantity,
+            })),
+            success_url: `${window.location.origin}/success`,
+            cancel_url: `${window.location.origin}/cart`,
+            metadata,
+          }),
+        }
+      );
+
+      console.log(response);
+      
+
+      const data = await response.json();
+
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error("Stripe checkout failed");
+      }
+    } catch (error) {
+      console.error("Stripe Checkout Error:", error);
+      toast.error("Something went wrong during checkout.");
+    }
   };
 
   const subtotal = cart.reduce(
@@ -114,6 +164,7 @@ const Cart = () => {
               ))}
             </div>
           </div>
+
           {/* Cart Summary */}
           <div className="w-full lg:w-1/3">
             <div className="bg-white rounded shadow p-6 sticky top-24">
@@ -130,12 +181,13 @@ const Cart = () => {
                 <span>Total</span>
                 <span>Rs.{subtotal.toFixed(2)}</span>
               </div>
-              <Link
-                to="/checkout"
+
+              <button
+                onClick={handleCheckout}
                 className="block mt-6 w-full text-center bg-primary text-white py-2 rounded hover:bg-primary-dark font-semibold"
               >
                 Proceed to Checkout
-              </Link>
+              </button>
             </div>
           </div>
         </div>
