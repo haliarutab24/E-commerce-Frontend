@@ -61,8 +61,11 @@ const Features = () => {
               </div>
             )}
             <div className="text-center mt-12">
-              <Link to="/products" className="btn-primary inline-flex items-center gap-2">
-                View All Products
+              <Link
+                to={`/product-categories/${section.name.toLowerCase()}`}
+                className="btn-primary inline-flex items-center gap-2"
+              >
+                View All {section.name} Products
                 <FaArrowRight className="w-5 h-5" />
               </Link>
             </div>

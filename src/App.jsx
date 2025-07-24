@@ -30,6 +30,7 @@ import { useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Success from "./pages/Success";
 import Cancel from "./pages/user/Cancel";
+import ProductCategories from "./pages/user/ProductPromotions";
 
 
 function AppContent() {
@@ -61,6 +62,7 @@ function AppContent() {
           <Route path='/cancel' element={<Cancel />} />
           <Route path='/contact' element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/product-categories/:promotionName" element={<ProductCategories />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/apps" element={<MobileApps />} />

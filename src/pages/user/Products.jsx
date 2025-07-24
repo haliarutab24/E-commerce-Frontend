@@ -128,7 +128,7 @@ const Products = () => {
         {filteredProducts.map((product, idx) => {
           const desc = product.description || "";
           const isLong = desc.length > 200; // adjust as needed for 2 lines
-          console.log("product.category:", product.category);
+          // console.log("product.category:", product.category);
           return (
             <div
               key={product._id}
@@ -174,6 +174,8 @@ const Products = () => {
                 <p className="pt-2 text-gray-600 text-xs font-sans flex-1 line-clamp-3">
                   {desc}
                 </p>
+                
+                // see more button
                 {isLong && (
                   <button
                     className="text-blue-600 text-xs mt-1 underline"
@@ -182,6 +184,8 @@ const Products = () => {
                     See more
                   </button>
                 )}
+               
+               // add to cart button
                 <div className="mt-4 flex items-center justify-between">
                   <span
                     className={`text-xs font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"
