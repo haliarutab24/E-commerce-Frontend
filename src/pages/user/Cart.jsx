@@ -113,10 +113,27 @@ const Cart = () => {
     // Optionally: send update to backend here
   };
 
-  const handleRemove = (productId) => {
-    setCartItems(prev => prev.filter(item => item._id !== productId));
-    toast.info("Item removed from cart");
-    // Optionally: send remove to backend here
+  const handleRemove = async (productId) => {
+    try {
+      const userId = user ? String(user.id || user._id) : '';
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/cart/remove`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add authorization header if needed
+        },
+        body: JSON.stringify({ userId, productId }),
+      });
+
+      if (response.ok) {
+        setCartItems(prev => prev.filter(item => item._id !== productId));
+        toast.info("Item removed from cart");
+      } else {
+        toast.error("Failed to remove item from cart");
+      }
+    } catch (error) {
+      toast.error("Error removing item from cart");
+    }
   };
 
   const subtotal = cartItems.reduce(
@@ -166,7 +183,7 @@ const Cart = () => {
                   />
                   <div className="flex-1">
                     <h2 className="font-semibold">{item.name}</h2>
-                    <p className="text-primary font-bold">Rs.{item.price}</p>
+                    <p className="text-primary font-bold">${item.price}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => handleQuantityChange(item._id, -1)}
@@ -205,7 +222,7 @@ const Cart = () => {
                       Remove
                     </button>
                     <div className="mt-2 font-semibold">
-                      Rs.{item.price * item.quantity || "0"}
+                      ${item.price * item.quantity || "0"}
                     </div>
                   </div>
                 </div>
@@ -219,15 +236,15 @@ const Cart = () => {
               <h3 className="text-xl font-bold mb-4">Summary</h3>
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>Rs.{subtotal.toFixed(2)}</span>
+                <span>${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Shipping</span>
-                <span>Rs.0</span>
+                <span>$0</span>
               </div>
               <div className="flex justify-between font-bold text-lg border-t pt-2">
                 <span>Total</span>
-                <span>Rs.{subtotal.toFixed(2)}</span>
+                <span>${subtotal.toFixed(2)}</span>
               </div>
 
               <button

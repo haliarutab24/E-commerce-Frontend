@@ -142,7 +142,7 @@ const Products = () => {
               />
               <div className="p-4 flex-1 flex flex-col justify-center">
                 <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
-                <p className="text-primary font-bold text-xl mb-2">Rs.{product.price}</p>
+                <p className="text-primary font-bold text-xl mb-2">${product.price}</p>
                 <div className="flex flex-wrap gap-2">
                   {Array.isArray(product.category) && product.category.map((cat, idx) => {
                     if (typeof cat === "object" && cat !== null) {

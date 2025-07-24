@@ -120,8 +120,8 @@ const AddProduct = () => {
     e.preventDefault();
 
     // --- 1. VALIDATION FIRST ---
-    if (Number(form.price) <= 145) {
-      toast.error("Price must be greater than Rs.145.");
+    if (Number(form.price) <= 0.50) {
+      toast.error("Price must be greater than $ 0.50");
       return; // Stop. `loading` is still false.
     }
     

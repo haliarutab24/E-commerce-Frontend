@@ -75,11 +75,11 @@ const AdminDashboard = () => {
           <span className="text-gray-600 mt-2">Total Users</span>
         </div>
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">
-          <span className="text-2xl font-bold text-primary">Rs.{transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
+          <span className="text-2xl font-bold text-primary">${transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
           <span className="text-gray-600 mt-2">Total Transactions</span>
         </div>
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">
-          <span className="text-2xl font-bold text-primary">Rs.1200</span>
+          <span className="text-2xl font-bold text-primary">${transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
           <span className="text-gray-600 mt-2">Total Revenue</span>
         </div>
       </div>
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
                       </TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell className="text-primary font-bold">
-                        Rs.{product.price}
+                        ${product.price}
                       </TableCell>
                       <TableCell className="text-xs text-gray-500">
                         {product.category?.map((cat) => cat.name).join(", ") || "N/A"}
