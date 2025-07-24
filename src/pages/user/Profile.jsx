@@ -1,13 +1,13 @@
 // src/pages/user/Profile.jsx
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Profile = () => {
-  const user = useSelector((state) => state.auth.userInfo);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const user = JSON.parse(localStorage.getItem("userInfo") || "null");
+  // console.log("user" ,user);
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -17,13 +17,14 @@ const Profile = () => {
         );
         // Filter transactions for the logged-in user
         const allTransactions = Array.isArray(data.data) ? data.data : [];
-        console.log(allTransactions);
+        // console.log("allTransactions" ,allTransactions);
         
         const userTransactions = allTransactions.filter(
-          txn => txn.userId === user?._id
+          txn => txn.userId === user.id
         );
+        // console.log("userTransactions" ,userTransactions);
         setTransactions(userTransactions);
-        console.log("Filtered transactions for user:", user?._id, userTransactions);
+        // console.log("Filtered transactions for user:", user.id, userTransactions);
       } catch (error) {
         setTransactions([]);
         console.log("API error:", error);
@@ -32,6 +33,7 @@ const Profile = () => {
       }
     };
     if (user) fetchTransactions();
+    
   }, [user]);
 
   useEffect(() => {
@@ -69,26 +71,26 @@ const Profile = () => {
                   <th className="py-2 px-4 text-left">Txn ID</th>
                   <th className="py-2 px-4 text-left">Date</th>
                   <th className="py-2 px-4 text-left">Product</th>
-                  <th className="py-2 px-4 text-left">Qty</th>
-                  <th className="py-2 px-4 text-left">Price</th>
-                  <th className="py-2 px-4 text-left">Total</th>
+                  <th className="py-2 px-4 text-left">Total Amount</th>
                   <th className="py-2 px-4 text-left">Status</th>
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((txn) =>
-                  txn.products.map((prod, idx) => (
+                {transactions.map(txn => (
+                  txn.products.map(prod => (
                     <tr key={txn._id + "-" + prod._id}>
-                      <td className="py-2 px-4">{txn.transactionId}</td>
+                      <td className="py-2 px-4">{txn.transactionId.slice(0, 15)}</td>
                       <td className="py-2 px-4">{new Date(txn.createdAt).toLocaleDateString()}</td>
-                      <td className="py-2 px-4">{prod.productId.name}</td>
-                      <td className="py-2 px-4">{prod.quantity}</td>
-                      <td className="py-2 px-4">₹{prod.price}</td>
-                      <td className="py-2 px-4">₹{(prod.price * prod.quantity).toFixed(2)}</td>
-                      <td className="py-2 px-4">{txn.paymentStatus}</td>
+                      <td className="py-2 px-4">{prod.name}</td>
+                      <td className="py-2 px-4">${(txn.totalAmount).toFixed(2)}</td>
+                      <td className="py-2 px-4">
+                        <span className="inline-block px-4 py-[6px] rounded-full bg-green-500 text-white text-xs font-semibold">
+                          {txn.paymentStatus.charAt(0).toUpperCase() + txn.paymentStatus.slice(1)}
+                        </span>
+                      </td>
                     </tr>
                   ))
-                )}
+                ))}
               </tbody>
             </table>
           </div>

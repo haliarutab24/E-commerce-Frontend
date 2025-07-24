@@ -124,7 +124,7 @@ const Cart = () => {
         },
         body: JSON.stringify({ userId, productId }),
       });
-
+console.log("response",response);
       if (response.ok) {
         setCartItems(prev => prev.filter(item => item._id !== productId));
         toast.info("Item removed from cart");
