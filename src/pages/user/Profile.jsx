@@ -37,7 +37,7 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log("Transactions state:", transactions);
+    // console.log("Transactions state:", transactions);
   }, [transactions]);
 
   return (
