@@ -175,7 +175,6 @@ const Products = () => {
                   {desc}
                 </p>
                 
-                // see more button
                 {isLong && (
                   <button
                     className="text-blue-600 text-xs mt-1 underline"
@@ -185,7 +184,6 @@ const Products = () => {
                   </button>
                 )}
                
-               // add to cart button
                 <div className="mt-4 flex items-center justify-between">
                   <span
                     className={`text-xs font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"
