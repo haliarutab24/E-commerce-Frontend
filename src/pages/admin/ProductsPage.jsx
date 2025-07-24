@@ -45,7 +45,11 @@ const ProductsPage = () => {
           axios.get(`${import.meta.env.VITE_API_BASE_URL}/promotions`),
         ]);
         
-        setProducts(Array.isArray(prodRes.data.data) ? prodRes.data.data : []);
+        setProducts(
+          Array.isArray(prodRes.data.data)
+            ? prodRes.data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            : []
+        );
         console.log("Product", products);
         
         setCategories(catRes.data.data.filter(c => c.isEnable));
@@ -257,41 +261,43 @@ const ProductsPage = () => {
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
-                  <tr key={product._id} className="border-b hover:bg-gray-50">
-                    <td className="py-2 px-4">
-                      <img src={product.images?.[0]?.url || 'https://via.placeholder.com/40'} alt={product.name} className="w-10 h-10 object-cover rounded"/>
-                    </td>
-                    <td className="py-2 px-4 font-medium">{product.name}</td>
-                    <td className="py-2 px-4">${product.price.toFixed(2)}</td>
-                    <td className="py-2 px-4">
-                      {product.category?.map(cat => cat.name).join(', ') || 'N/A'}
-                    </td>
-                    <td className="py-2 px-4">{product.stock}</td>
-                    <td className="py-2 px-4">
-                      {product.discountPercentage > 0 ? (
-                        <span className="font-semibold text-red-600">{product.discountPercentage}%</span>
-                      ) : (
-                        'N/A'
-                      )}
-                    </td>
-                    
-                    <td className="py-2 px-4">
-                      {product.color?.join(', ') || 'N/A'}
-                    </td>
-                    <td className="py-2 px-4">
-                      {product.size?.join(', ') || 'N/A'}
-                    </td>
-                    <td className="py-2 px-4 space-x-2 text-right">
-                      <button onClick={() => handleEdit(product)} className="px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold">
-                        Edit
-                      </button>
-                      <button onClick={() => handleDelete(product._id)} className="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-xs font-semibold">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                [...products]
+                  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                  .map((product) => (
+                    <tr key={product._id} className="border-b hover:bg-gray-50">
+                      <td className="py-2 px-4">
+                        <img src={product.images?.[0]?.url || 'https://via.placeholder.com/40'} alt={product.name} className="w-10 h-10 object-cover rounded"/>
+                      </td>
+                      <td className="py-2 px-4 font-medium">{product.name}</td>
+                      <td className="py-2 px-4">${product.price.toFixed(2)}</td>
+                      <td className="py-2 px-4">
+                        {product.category?.map(cat => cat.name).join(', ') || 'N/A'}
+                      </td>
+                      <td className="py-2 px-4">{product.stock}</td>
+                      <td className="py-2 px-4">
+                        {product.discountPercentage > 0 ? (
+                          <span className="font-semibold text-red-600">{product.discountPercentage}%</span>
+                        ) : (
+                          'N/A'
+                        )}
+                      </td>
+                      
+                      <td className="py-2 px-4">
+                        {product.color?.join(', ') || 'N/A'}
+                      </td>
+                      <td className="py-2 px-4">
+                        {product.size?.join(', ') || 'N/A'}
+                      </td>
+                      <td className="py-2 px-4 space-x-2 text-right">
+                        <button onClick={() => handleEdit(product)} className="px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold">
+                          Edit
+                        </button>
+                        <button onClick={() => handleDelete(product._id)} className="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-xs font-semibold">
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
               )}
             </tbody>
           </table>
