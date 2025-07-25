@@ -25,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Disclaimer from "./pages/user/Disclaimer";
 import MobileApps from "./pages/user/MobileApps";
 import Promotion from "./pages/admin/Promotion";
-import Category from "./pages/admin/Category";
+import Category from "./pages/admin/Category";``
 import { useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Success from "./pages/Success";

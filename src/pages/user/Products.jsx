@@ -66,7 +66,7 @@ const Products = () => {
     try {
       const user = JSON.parse(localStorage.getItem('userInfo')); // adjust key if needed
       const userId = user?.id; // adjust property if needed
-      console.log("userId",userId);
+      console.log("userId", userId);
 
       if (!userId) {
         toast.error('User not logged in');
@@ -81,7 +81,7 @@ const Products = () => {
           quantity: 1,
         }
       );
-      console.log("response",response);
+      console.log("response", response);
       toast.success('Added to cart!');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to add to cart');
@@ -104,8 +104,8 @@ const Products = () => {
           key="All"
           onClick={() => handleCategoryChange("All")}
           className={`px-4 py-2 rounded-full border transition ${selectedCategory === "All"
-              ? "bg-primary text-white border-primary"
-              : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+            ? "bg-primary text-white border-primary"
+            : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
             }`}
         >
           All
@@ -115,8 +115,8 @@ const Products = () => {
             key={cat.name}
             onClick={() => handleCategoryChange(cat.name)}
             className={`px-4 py-2 rounded-full border transition ${selectedCategory === cat.name
-                ? "bg-primary text-white border-primary"
-                : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+              ? "bg-primary text-white border-primary"
+              : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
               }`}
           >
             {cat.name}
@@ -174,16 +174,16 @@ const Products = () => {
                 <p className="pt-2 text-gray-600 text-xs font-sans flex-1 line-clamp-3">
                   {desc}
                 </p>
-                
+
                 {isLong && (
                   <button
-                    className="text-blue-600 text-xs mt-1 underline"
+                    className="text-[#89B9AD] hover:text-[#6fa89c] text-xs mt-1 underline transition-colors duration-200"
                     onClick={() => navigate(`/products/${product._id}`)}
                   >
                     See more
                   </button>
                 )}
-               
+
                 <div className="mt-4 flex items-center justify-between">
                   <span
                     className={`text-xs font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"
@@ -194,7 +194,7 @@ const Products = () => {
                   <button
                     onClick={() => handleAddToCart(product)}
                     disabled={product.stock <= 0}
-                    className={`px-3 py-1 rounded bg-primary text-white text-sm font-semibold transition hover:bg-primary-dark ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
+                    className={`px-3 py-1 rounded bg-[#89B9AD] text-white text-sm font-semibold transition hover:bg-[#6fa89c] ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                   >
                     Add to Cart
