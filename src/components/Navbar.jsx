@@ -1,32 +1,35 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../context/authSlice"; // adjust path based on your structure
+import { logout } from "../context/authSlice";
 import axios from 'axios';
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef();
+  const mobileMenuRef = useRef();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Get user info from Redux
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
+          !event.target.closest('.mobile-menu-button')) {
+        setIsMobileMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  
-  // Replace this with your cart state/count
   const API_URL = import.meta.env.VITE_API_BASE_URL;
   const [cartCount, setCartCount] = useState(0);
 
@@ -43,17 +46,12 @@ const Navbar = () => {
         setCartCount(count);
       } catch (error) {
         setCartCount(0);
-        console.error('Error fetching cart count:', error);
       }
     };
 
-    fetchCart(); // Initial fetch
-
-    // Listen for cart updates
+    fetchCart();
     const handleCartUpdate = () => fetchCart();
     window.addEventListener('cartUpdated', handleCartUpdate);
-
-    // Optionally, keep your interval for background sync
     const interval = setInterval(fetchCart, 20000);
 
     return () => {
@@ -62,64 +60,42 @@ const Navbar = () => {
     };
   }, []);
 
+  const navLinks = [
+    { path: "/products", text: "Products" },
+    { path: "/return-policy", text: "Return Policy" },
+    { path: "/disclaimer", text: "Disclaimer" },
+    { path: "/apps", text: "Apps" },
+    { path: "/about", text: "About" },
+    { path: "/contact", text: "Contact" }
+  ];
+
   return (
     <nav
       className="bg-white shadow-md shadow-[#f5f6fa]/30 sticky top-0 z-50"
-      style={{ fontFamily: "'Poppins', sans-serif" }} // Custom font (add via Google Fonts)
+      style={{ fontFamily: "'Poppins', sans-serif" }}
     >
-      <div className="mx-20 py-3 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link
-            to="/"
-            className="flex items-center"
-          >
-            <img
-              src="/images/logo2.jpg"
-              alt="Wahid Foods SMC Logo"
-              className="h-16 w-40 mr-2"  // Increased width from w-24 to w-40
-              style={{ objectFit: "contain" }}
-            />
-            {/* Optionally, keep the text for accessibility or branding */}
-            {/* <span className="sr-only">Wahid Foods SMC</span> */}
-          </Link>
-        </div>
-        <div className="space-x-8 flex items-center">
-          <Link
-            to="/products"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            Products
-          </Link>
-          <Link
-            to="/return-policy"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            Return Policy
-          </Link>
-          <Link
-            to="/disclaimer"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            Disclaimer
-          </Link>
-          <Link
-            to="/apps"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            Apps
-          </Link>
-          <Link
-            to="/about"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            About
-          </Link>
-          <Link
-            to="/contact"
-            className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
-          >
-            Contact
-          </Link>
+      <div className="flex items-center justify-between px-5 md:px-20 py-3">
+        {/* Logo */}
+        <Link to="/" className="flex items-center flex-shrink-0">
+          <img
+            src="/images/logo2.jpg"
+            alt="Wahid Foods SMC Logo"
+            className="h-14 w-auto"
+            style={{ objectFit: "contain" }}
+          />
+        </Link>
+
+        {/* Desktop Nav Links */}
+        <div className="hidden 900:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="text-black hover:text-newPrimary font-medium transition-colors duration-300"
+            >
+              {link.text}
+            </Link>
+          ))}
           <Link to="/cart" className="relative">
             <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
             {cartCount > 0 && (
@@ -128,13 +104,12 @@ const Navbar = () => {
               </span>
             )}
           </Link>
-          {/* User Section */}
           {!userInfo ? (
             <Link
               to="/login"
               className="text-newPrimary hover:text-newPrimaryFooter font-medium transition-colors duration-300"
             >
-              Sign In
+              <FaUserCircle className="text-xl" />
             </Link>
           ) : (
             <div className="relative" ref={dropdownRef}>
@@ -168,7 +143,7 @@ const Navbar = () => {
                     onClick={() => {
                       setShowDropdown(false);
                       dispatch(logout());
-                      navigate("/login"); // or navigate("/") if you want to go to home
+                      navigate("/login");
                     }}
                   >
                     Logout
@@ -178,7 +153,87 @@ const Navbar = () => {
             </div>
           )}
         </div>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          className="900:hidden mobile-menu-button text-newPrimary focus:outline-none"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? (
+            <FaTimes className="text-2xl" />
+          ) : (
+            <FaBars className="text-2xl" />
+          )}
+        </button>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMobileMenuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="900:hidden bg-white shadow-lg py-4 px-5 z-40"
+        >
+          <div className="flex flex-col space-y-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 flex items-center"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.text}
+              </Link>
+            ))}
+            <Link to="/cart" className="relative py-2 px-2 flex items-center">
+              <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
+              {cartCount > 0 && (
+                <span className="ml-2 bg-newPrimary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+            <div className="pt-4 border-t border-newPrimary/30">
+              {userInfo ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 items-center"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <FaUserCircle className="mr-2" /> Profile
+                  </Link>
+                  <Link
+                    to="/orders"
+                    className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    My Orders
+                  </Link>
+                  <button
+                    className="block w-full text-left text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      dispatch(logout());
+                      navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 items-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <FaUserCircle className="mr-2" /> Sign In
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -34,6 +34,7 @@ const Footer = () => {
   };
 
   return (
+
     <footer className="h-96 bg-newPrimaryFooter mt-20 border-t-2">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -47,12 +48,14 @@ const Footer = () => {
               <span>Wahid Foods SMC PVT.Ltd</span>
             </Link>
             <p className="text-black text-base leading-relaxed">
+
               Your premier destination for quality products and an exceptional shopping experience.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
+
             <h3 className="font-semibold mb-4 text-xl text-black">Quick Links</h3>
             <ul className="space-y-3">
               <li>
@@ -87,11 +90,13 @@ const Footer = () => {
                   FAQ
                 </Link>
               </li>
+
             </ul>
           </div>
 
           {/* Customer Service */}
           <div>
+
             <h3 className="font-semibold mb-4 text-xl text-black">Customer Service</h3>
             <ul className="space-y-3">
               <li>
@@ -142,10 +147,13 @@ const Footer = () => {
                 className="rounded-md border bg-white text-black px-4 py-2 focus:outline-none focus:ring-2 transition"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+
               />
               <button 
                 type="submit"
+
                 className="bg-newPrimary hover:bg-newPrimaryDark text-white font-semibold rounded-md py-2 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
+
               >
                 Subscribe
               </button>
@@ -154,6 +162,7 @@ const Footer = () => {
             </form>
           </div>
         </div>
+
 
         <div className="border-t border-black/50 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-black text-sm">
