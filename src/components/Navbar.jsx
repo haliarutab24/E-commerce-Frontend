@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSignInAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../context/authSlice";
 import axios from 'axios';
@@ -107,9 +107,10 @@ const Navbar = () => {
           {!userInfo ? (
             <Link
               to="/login"
-              className="text-newPrimary hover:text-newPrimaryFooter font-medium transition-colors duration-300"
+              className="text-newPrimary hover:text-newPrimaryFooter font-medium transition-colors duration-300 flex items-center gap-1"
             >
-              <FaUserCircle className="text-xl" />
+              <FaSignInAlt className="text-xl" />
+              <span>Sign In</span>
             </Link>
           ) : (
             <div className="relative" ref={dropdownRef}>
@@ -154,18 +155,76 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          className="900:hidden mobile-menu-button text-newPrimary focus:outline-none"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? (
-            <FaTimes className="text-2xl" />
+        {/* Mobile Icons (Cart, User, Hamburger) */}
+        <div className="900:hidden flex items-center space-x-4">
+          <Link to="/cart" className="relative">
+            <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-newPrimary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+          
+          {!userInfo ? (
+            <Link
+              to="/login"
+              className="text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300"
+            >
+              <FaSignInAlt className="text-xl" />
+            </Link>
           ) : (
-            <FaBars className="text-2xl" />
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowDropdown((prev) => !prev)}
+                className="focus:outline-none"
+              >
+                <FaUserCircle className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
+              </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg py-2 z-50">
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
+                    onClick={() => setShowDropdown(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/orders"
+                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
+                    onClick={() => setShowDropdown(false)}
+                  >
+                    Orders
+                  </Link>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
+                    onClick={() => {
+                      setShowDropdown(false);
+                      dispatch(logout());
+                      navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           )}
-        </button>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            className="mobile-menu-button text-newPrimary focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <FaTimes className="text-2xl" />
+            ) : (
+              <FaBars className="text-2xl" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -179,39 +238,31 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 flex items-center"
+                className="text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 flex items-center rounded"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.text}
               </Link>
             ))}
-            <Link to="/cart" className="relative py-2 px-2 flex items-center">
-              <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
-              {cartCount > 0 && (
-                <span className="ml-2 bg-newPrimary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
             <div className="pt-4 border-t border-newPrimary/30">
               {userInfo ? (
                 <>
                   <Link
                     to="/profile"
-                    className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 items-center"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <FaUserCircle className="mr-2" /> Profile
                   </Link>
                   <Link
                     to="/orders"
-                    className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     My Orders
                   </Link>
                   <button
-                    className="block w-full text-left text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2"
+                    className="block w-full text-left text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       dispatch(logout());
@@ -224,10 +275,10 @@ const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-newPrimary hover:text-newPrimaryDark font-medium transition-colors duration-300 py-2 px-2 items-center"
+                  className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <FaUserCircle className="mr-2" /> Sign In
+                  <FaSignInAlt className="mr-2" /> Sign In
                 </Link>
               )}
             </div>
