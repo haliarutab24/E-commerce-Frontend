@@ -15,6 +15,9 @@ export default {
         newPrimaryFooter: "#B8E0EF",
       
       },
+      screens: {
+        '900': '900px',
+      },
     },
   },
   plugins: [],

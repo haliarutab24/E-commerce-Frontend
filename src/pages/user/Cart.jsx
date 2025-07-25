@@ -151,6 +151,7 @@ console.log("response",response);
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
+
       <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">
         Your Cart
       </h1>
@@ -159,11 +160,13 @@ console.log("response",response);
           Your cart is empty.
           <div className="mt-4">
             <Link
+
               to="/products"
               className="px-4 py-2 bg-newPrimary text-white rounded hover:bg-newPrimaryDark"
             >
               Shop Now
             </Link>
+
           </div>
         </div>
       ) : (
