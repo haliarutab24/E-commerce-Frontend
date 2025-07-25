@@ -8,7 +8,6 @@ import Products from "./pages/user/Products";
 import Order from './pages/user/Orders'
 import SingleProduct from "./pages/user/SingleProduct";
 import Cart from "./pages/user/Cart";
-import Checkout from "./pages/user/Checkout";
 import Profile from "./pages/user/Profile";
 import About from './pages/user/About';
 import Footer from './pages/user/Footer';
@@ -56,7 +55,6 @@ function AppContent() {
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path='/orders' element={<Order />} />
           <Route path='/success' element={<Success />} />
           <Route path='/cancel' element={<Cancel />} />

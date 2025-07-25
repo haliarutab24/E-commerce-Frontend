@@ -89,7 +89,7 @@ const SingleProduct = () => {
         <h2 className="text-2xl font-bold">Product Not Found</h2>
         <button
           onClick={() => navigate(-1)}
-          className="mt-4 px-4 py-2 bg-primary text-white rounded"
+          className="mt-4 px-4 py-2 bg-newPrimary text-white rounded"
         >
           Go Back
         </button>
@@ -121,7 +121,7 @@ const SingleProduct = () => {
                 src={img.url}
                 alt={`thumbnail-${idx}`}
                 onClick={() => setImageIndex(idx)}
-                className={`w-20 h-20 object-cover rounded cursor-pointer border ${idx === imageIndex ? "border-primary" : "border-gray-300"
+                className={`w-20 h-20 object-cover rounded cursor-pointer border ${idx === imageIndex ? "border-newPrimary" : "border-gray-300"
                   }`}
               />
             ))}
@@ -132,7 +132,7 @@ const SingleProduct = () => {
       {/* Product Details */}
       <div className="flex-1">
         <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-        <p className="text-primary text-2xl font-semibold mb-2">${product.price}</p>
+        <p className="text-newPrimary text-2xl font-semibold mb-2">${product.price}</p>
 
         {/* Category badges with random colors */}
         <div className="mb-4 flex flex-wrap gap-2">
@@ -188,14 +188,14 @@ const SingleProduct = () => {
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className={`px-6 py-2 rounded bg-primary text-white font-semibold transition hover:bg-primary-dark ${product.stock === 0 ? "opacity-50 cursor-not-allowed" : ""
+            className={`px-6 py-2 rounded bg-newPrimary text-white font-semibold transition hover:bg-newPrimaryDark ${product.stock === 0 ? "opacity-50 cursor-not-allowed" : ""
               }`}
           >
             Add to Cart
           </button>
           <Link
             to="/products"
-            className="px-6 py-2 rounded border border-primary text-primary font-semibold hover:bg-primary hover:text-white transition"
+            className="px-6 py-2 rounded border border-newPrimary text-newPrimary font-semibold hover:bg-newPrimary hover:text-white transition"
           >
             Back to Products
           </Link>

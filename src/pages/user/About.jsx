@@ -73,7 +73,7 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl font-bold text-[#89B9AD] mb-8">About ShopEase</h1>
+          <h1 className="text-4xl font-bold text-newPrimary mb-8">About ShopEase</h1>
         </motion.div>
 
         <motion.p
@@ -97,7 +97,7 @@ const About = () => {
               key={feature.id}
               variants={itemVariants}
               whileHover="hover"
-              className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-all duration-300 hover:border-[#89B9AD] hover:border-opacity-50 hover:border"
+              className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center transition-all duration-300 hover:border-newPrimary hover:border-opacity-50 hover:border"
             >
               <motion.span
                 {...feature.iconAnimation}

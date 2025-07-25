@@ -67,7 +67,7 @@ const MobileApps = () => (
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="text-4xl font-bold text-[#89B9AD] mb-8 text-center">ShopEase Mobile Apps</h1>
+      <h1 className="text-4xl font-bold text-newPrimary mb-8 text-center">ShopEase Mobile Apps</h1>
     </motion.div>
 
     <motion.div
@@ -83,7 +83,7 @@ const MobileApps = () => (
     ...itemVariants,
     hover: cardHoverVariants.hover
   }}
-          className="bg-white rounded-xl shadow-md p-8 flex flex-col items-center transition-all duration-300 hover:border-[#89B9AD] hover:border-opacity-50 hover:border"
+          className="bg-white rounded-xl shadow-md p-8 flex flex-col items-center transition-all duration-300 hover:border-newPrimary hover:border-opacity-50 hover:border"
         >
           <motion.div
             animate={{ 
@@ -127,7 +127,7 @@ const MobileApps = () => (
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href={app.link}
-            className="bg-[#89B9AD] hover:bg-[#6a9c8f] text-white font-semibold px-6 py-2 rounded transition"
+            className="bg-newPrimary hover:bg-newPrimaryDark text-white font-semibold px-6 py-2 rounded transition"
             target="_blank"
             rel="noopener noreferrer"
           >

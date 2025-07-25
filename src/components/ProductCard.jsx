@@ -56,14 +56,14 @@ const ProductCard = ({ product }) => {
               {images.map((_, idx) => (
                 <span
                   key={idx}
-                  className={`w-2 h-2 rounded-full ${idx === currentImage ? "bg-primary" : "bg-gray-300"}`}
+                  className={`w-2 h-2 rounded-full ${idx === currentImage ? "bg-newPrimary" : "bg-gray-300"}`}
                 />
               ))}
             </div>
           )}
         </div>
         <h3 className="mt-2 text-lg font-semibold">{product.name}</h3>
-        <p className="text-primary font-bold">${product.price}</p>
+        <p className="text-newPrimary font-bold">${product.price}</p>
         <p className="text-gray-500">{categoryString}</p>
       </Link>
     </div>

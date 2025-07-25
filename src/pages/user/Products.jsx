@@ -97,15 +97,15 @@ const Products = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-primary">All Products</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">All Products</h1>
       {/* Category Filter */}
       <div className="flex flex-wrap justify-center gap-3 mb-8">
         <button
           key="All"
           onClick={() => handleCategoryChange("All")}
           className={`px-4 py-2 rounded-full border transition ${selectedCategory === "All"
-              ? "bg-primary text-white border-primary"
-              : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+              ? "bg-newPrimary text-white border-newPrimary"
+              : "bg-white text-newPrimary border-newPrimary hover:bg-newPrimary hover:text-white"
             }`}
         >
           All
@@ -115,8 +115,8 @@ const Products = () => {
             key={cat.name}
             onClick={() => handleCategoryChange(cat.name)}
             className={`px-4 py-2 rounded-full border transition ${selectedCategory === cat.name
-                ? "bg-primary text-white border-primary"
-                : "bg-white text-primary border-primary hover:bg-primary hover:text-white"
+                ? "bg-newPrimary text-white border-newPrimary"
+                : "bg-white text-newPrimary border-newPrimary hover:bg-newPrimary hover:text-white"
               }`}
           >
             {cat.name}
@@ -142,7 +142,7 @@ const Products = () => {
               />
               <div className="p-4 flex-1 flex flex-col justify-center">
                 <h2 className="text-lg font-semibold mb-1">{product.name}</h2>
-                <p className="text-primary font-bold text-xl mb-2">${product.price}</p>
+                <p className="text-newPrimary font-bold text-xl mb-2">${product.price}</p>
                 <div className="flex flex-wrap gap-2">
                   {Array.isArray(product.category) && product.category.map((cat, idx) => {
                     if (typeof cat === "object" && cat !== null) {
@@ -177,7 +177,7 @@ const Products = () => {
                 
                 {isLong && (
                   <button
-                    className="text-blue-600 text-xs mt-1 underline"
+                    className="text-newPrimary text-xs mt-1 underline"
                     onClick={() => navigate(`/products/${product._id}`)}
                   >
                     See more
@@ -194,7 +194,7 @@ const Products = () => {
                   <button
                     onClick={() => handleAddToCart(product)}
                     disabled={product.stock <= 0}
-                    className={`px-3 py-1 rounded bg-primary text-white text-sm font-semibold transition hover:bg-primary-dark ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
+                    className={`px-3 py-1 rounded bg-newPrimary text-white text-sm font-semibold transition hover:bg-newPrimaryDark ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                   >
                     Add to Cart

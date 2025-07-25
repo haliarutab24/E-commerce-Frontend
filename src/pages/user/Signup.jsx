@@ -71,7 +71,7 @@ const Signup = () => {
 
       {/* Signup Form */}
       <div className="relative z-10 bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-6 text-center text-[#00897B]">
+        <h2 className="text-3xl font-bold mb-6 text-center text-newPrimary">
           Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -82,7 +82,7 @@ const Signup = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-newPrimary"
               placeholder="Your Name"
               required
             />
@@ -94,7 +94,7 @@ const Signup = () => {
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-newPrimary"
               placeholder="you@example.com"
               required
             />
@@ -106,7 +106,7 @@ const Signup = () => {
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-newPrimary"
               placeholder="Password"
               required
             />
@@ -118,7 +118,7 @@ const Signup = () => {
               name="confirm"
               value={form.confirm}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-newPrimary"
               placeholder="Confirm Password"
               required
             />
@@ -126,7 +126,7 @@ const Signup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#00897B] hover:bg-[#00897B]/80 text-white py-2 rounded-md font-semibold transition-all"
+            className="w-full bg-newPrimary hover:bg-newPrimaryDark text-white py-2 rounded-md font-semibold transition-all"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

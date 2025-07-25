@@ -35,19 +35,19 @@ const Features = () => {
   return (
     <>
       {sections.map((section) => (
-        <section key={section._id} className="py-10 bg-[#FFFFFF]">
+        <section key={section._id} className="py-10 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-[#00897B] mb-4">
+              <h2 className="text-3xl lg:text-4xl font-bold text-newPrimary mb-4">
                 {section.name} Products
               </h2>
-              <p className="text-[#00897B] text-lg">
+              {/* <p className="text-black text-lg">
                 {section.name === "features"
                   ? "Discover our handpicked selection of premium products"
                   : section.name === "discount"
                   ? "Great deals on your favorite items"
                   : `Explore our ${section.name} products`}
-              </p>
+              </p> */}
             </div>
             {loading ? (
               <div className="flex justify-center items-center h-40">
@@ -55,7 +55,7 @@ const Features = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {section.products.map((product) => (
+                {section.products.slice(0, 8).map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
               </div>

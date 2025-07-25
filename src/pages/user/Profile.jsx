@@ -15,6 +15,8 @@ const Profile = () => {
           `${import.meta.env.VITE_API_BASE_URL}/transactions`,
           
         );
+
+        console.log("data" ,data);
         // Filter transactions for the logged-in user
         const allTransactions = Array.isArray(data.data) ? data.data : [];
         // console.log("allTransactions" ,allTransactions);
@@ -22,6 +24,7 @@ const Profile = () => {
         const userTransactions = allTransactions.filter(
           txn => txn.userId === user.id
         );
+        console.log("user" ,transactions);
         // console.log("userTransactions" ,userTransactions);
         setTransactions(userTransactions);
         // console.log("Filtered transactions for user:", user.id, userTransactions);
@@ -42,7 +45,7 @@ const Profile = () => {
 
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-primary text-center">Profile</h1>
+      <h1 className="text-3xl font-bold mb-8 text-newPrimary text-center">Profile</h1>
       {/* User Details */}
       <div className="bg-white rounded shadow p-6 mb-10 max-w-xl mx-auto">
         <h2 className="text-xl font-semibold mb-4">User Details</h2>
@@ -84,7 +87,7 @@ const Profile = () => {
                       <td className="py-2 px-4">{prod.name}</td>
                       <td className="py-2 px-4">${(txn.totalAmount).toFixed(2)}</td>
                       <td className="py-2 px-4">
-                        <span className="inline-block px-4 py-[6px] rounded-full bg-green-500 text-white text-xs font-semibold">
+                        <span className="inline-block px-4 py-[6px] rounded-full bg-newPrimary text-white text-xs font-semibold">
                           {txn.paymentStatus.charAt(0).toUpperCase() + txn.paymentStatus.slice(1)}
                         </span>
                       </td>

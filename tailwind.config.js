@@ -9,8 +9,11 @@ export default {
     extend: {
       colors: {
         primary: "#1d4ed8", // Blue-700
-        "primary-dark": "#1e40af", // Blue-800
+        primaryDark: "#1e40af", // Blue-800
         accent: "#e94560",
+        newPrimary: "#00809D",
+        newPrimaryFooter: "#B8E0EF",
+      
       },
     },
   },

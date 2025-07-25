@@ -91,17 +91,17 @@ const Disclaimer = () => {
         <div className="text-center mb-12 md:mb-16 px-4">
           <h1 
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-5xl font-bold text-[#2a6b5e] mb-4 md:mb-6 leading-tight
-                      drop-shadow-[0_2px_2px_rgba(137,185,173,0.4)]"
-            style={{ visibility: "hidden" }}
+            className="text-4xl sm:text-5xl md:text-5xl font-bold text-newPrimary mb-4 md:mb-6 leading-tight
+                      "
+            
           >
             Product Disclaimer
           </h1>
           <div 
             ref={underlineRef}
-            className="w-32 h-2 bg-gradient-to-r from-[#89B9AD] to-[#2a6b5e] mx-auto rounded-full 
+            className="w-32 h-2 bg-gradient-to-r from-newPrimary to-newPrimary mx-auto rounded-full 
                       origin-left transform scale-x-0"
-            style={{ visibility: "hidden" }}
+            
           ></div>
         </div>
 
@@ -111,11 +111,11 @@ const Disclaimer = () => {
             <div
               key={idx}
               ref={el => (cardsRef.current[idx] = el)}
-              className="bg-white rounded-xl shadow-lg hover:shadow-xl p-6 md:p-8 flex flex-col h-full border border-[#e0f3ef] hover:border-[#89B9AD] transition-all duration-300 transform hover:-translate-y-1"
-              style={{ visibility: "hidden" }}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl p-6 md:p-8 flex flex-col h-full border border-[#e0f3ef] hover:border-newPrimary transition-all duration-300 transform hover:-translate-y-1"
+              
             >
               <div className="flex items-start mb-4">
-                <div className="p-3 rounded-lg bg-[#f0f9f7] text-[#2a6b5e] mr-4 flex-shrink-0">
+                <div className="p-3 rounded-lg bg-[#f0f9f7] text-newPrimary mr-4 flex-shrink-0">
                   {point.icon}
                 </div>
                 <h2 className="text-lg md:text-xl font-semibold text-gray-800">{point.title}</h2>

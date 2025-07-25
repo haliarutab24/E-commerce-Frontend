@@ -63,7 +63,7 @@ const Cart = () => {
         products: JSON.stringify(cartItems),
       };
 
-      const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
+      // const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
 
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
@@ -151,7 +151,7 @@ console.log("response",response);
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-primary">
+      <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">
         Your Cart
       </h1>
       {cartItems.length === 0 ? (
@@ -160,7 +160,7 @@ console.log("response",response);
           <div className="mt-4">
             <Link
               to="/products"
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
+              className="px-4 py-2 bg-newPrimary text-white rounded hover:bg-newPrimaryDark"
             >
               Shop Now
             </Link>
@@ -183,7 +183,7 @@ console.log("response",response);
                   />
                   <div className="flex-1">
                     <h2 className="font-semibold">{item.name}</h2>
-                    <p className="text-primary font-bold">${item.price}</p>
+                    <p className="text-newPrimary font-bold">${item.price}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => handleQuantityChange(item._id, -1)}
@@ -249,7 +249,7 @@ console.log("response",response);
 
               <button
                 onClick={handleCheckout}
-                className="block mt-6 w-full text-center bg-primary text-white py-2 rounded hover:bg-primary-dark font-semibold disabled:opacity-50"
+                className="block mt-6 w-full text-center bg-newPrimary text-white py-2 rounded hover:bg-newPrimaryDark font-semibold disabled:opacity-50"
                 disabled={checkoutLoading}
               >
                 {checkoutLoading ? (

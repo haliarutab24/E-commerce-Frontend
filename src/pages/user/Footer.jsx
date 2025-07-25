@@ -1,34 +1,64 @@
-import React from 'react';
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { Store, Heart } from 'lucide-react';
+import axios from "axios"; // If not already imported
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      // Replace with your actual API endpoint
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/subscribe`,
+        { email }
+      );
+      setSuccess("Subscribed successfully!");
+      setEmail("");
+    } catch (err) {
+      setError("Failed to subscribe. Please try again later.");
+    }
+  };
+
   return (
-    <footer className="bg-[#000000] mt-20 border-t-2 border-[#89B9AD]">
+    <footer className="h-96 bg-newPrimaryFooter mt-20 border-t-2">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="space-y-6">
             <Link
               to="/"
-              className="flex items-center gap-3 font-bold text-3xl text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+              className="flex items-center gap-3 font-bold text-3xl text-black hover:text-newPrimary transition-colors duration-300"
             >
-              <Store className="w-10 h-10 text-[#89B9AD]" />
+              <Store className="w-10 h-10 text-black hover:text-newPrimary transition-colors duration-300" />
               <span>Wahid Foods SMC PVT.Ltd</span>
             </Link>
-            <p className="text-[#89B9AD] text-base leading-relaxed">
+            <p className="text-black text-base leading-relaxed">
               Your premier destination for quality products and an exceptional shopping experience.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Quick Links</h3>
+            <h3 className="font-semibold mb-4 text-xl text-black">Quick Links</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="/products"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   All Products
                 </Link>
@@ -36,7 +66,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   About Us
                 </Link>
@@ -44,7 +74,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   Contact
                 </Link>
@@ -52,7 +82,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/faq"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   FAQ
                 </Link>
@@ -62,12 +92,12 @@ const Footer = () => {
 
           {/* Customer Service */}
           <div>
-            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Customer Service</h3>
+            <h3 className="font-semibold mb-4 text-xl text-black">Customer Service</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="/shipping"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   Shipping Info
                 </Link>
@@ -75,7 +105,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/returns"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   Returns
                 </Link>
@@ -83,7 +113,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/support"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   Support
                 </Link>
@@ -91,7 +121,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/privacy"
-                  className="text-[#89B9AD] hover:text-[#FFFFFF] transition-colors duration-300"
+                  className="text-black hover:text-newPrimary transition-colors duration-300"
                 >
                   Privacy Policy
                 </Link>
@@ -101,33 +131,37 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-semibold mb-4 text-xl text-[#89B9AD]">Stay Updated</h3>
-            <p className="text-[#89B9AD] text-sm mb-4">
+            <h3 className="font-semibold mb-4 text-xl text-black">Stay Updated</h3>
+            <p className="text-black text-sm mb-4">
               Subscribe to get special offers and updates.
             </p>
-            <form className="flex flex-col gap-3">
+            <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="rounded-md border border-[#89B9AD]/50 bg-[#000000] text-[#89B9AD] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#89B9AD] transition"
+                className="rounded-md border bg-white text-black px-4 py-2 focus:outline-none focus:ring-2 transition"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <button
+              <button 
                 type="submit"
-                className="bg-gradient-to-r from-[#89B9AD] to-[#89B9AD] hover:from-[#C7DCA7] hover:to-[#89B9AD] text-[] hover:text-[#FFFFFF] font-semibold rounded-md py-2 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
+                className="bg-newPrimary hover:bg-newPrimaryDark text-white font-semibold rounded-md py-2 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out"
               >
                 Subscribe
               </button>
+              {error && <span className="text-red-500">{error}</span>}
+              {success && <span className="text-green-500">{success}</span>}
             </form>
           </div>
         </div>
 
-        <div className="border-t border-[#89B9AD]/50 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[#89B9AD] text-sm">
+        <div className="border-t border-black/50 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-black text-sm">
             © 2025 Wahid Foods SMC PVT.Ltd. All rights reserved.
           </p>
-          <p className="text-[#89B9AD] text-sm flex items-center gap-2">
+          <p className="text-black text-sm flex items-center gap-2">
             Made with{' '}
-            <Heart className="w-5 h-5 text-[#89B9AD] animate-pulse" /> by Wahid Foods Team
+            <Heart className="w-5 h-5 text-black animate-pulse" /> by Wahid Foods Team
           </p>
         </div>
       </div>
