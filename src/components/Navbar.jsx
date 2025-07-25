@@ -214,7 +214,7 @@ const Navbar = () => {
 
           {/* Mobile Hamburger Button */}
           <button
-            className="mobile-menu-button text-newPrimary focus:outline-none"
+            className="mobile-menu-button text-newPrimary focus:outline-none absolute top-6 right-6"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -233,36 +233,37 @@ const Navbar = () => {
           ref={mobileMenuRef}
           className="900:hidden bg-white shadow-lg py-4 px-5 z-40"
         >
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 justify-center items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 flex items-center rounded"
+                className="text-newPrimary w-40 justify-center  hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 flex items-center rounded"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.text}
               </Link>
             ))}
-            <div className="pt-4 border-t border-newPrimary/30">
+            <div className=" pt-4 border-t border-newPrimary/30 w-40 items-center text-center">
               {userInfo ? (
                 <>
                   <Link
                     to="/profile"
-                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded flex flex-col justify-center items-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <FaUserCircle className="mr-2" /> Profile
+                    <FaUserCircle className="mb-1 text-2xl" />
+                    Profile
                   </Link>
                   <Link
                     to="/orders"
-                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded flex flex-col justify-center items-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     My Orders
                   </Link>
                   <button
-                    className="block w-full text-left text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded"
+                    className="block w-full text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded flex flex-col justify-center items-center"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       dispatch(logout());
@@ -275,10 +276,11 @@ const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded"
+                  className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded flex flex-col justify-center items-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <FaSignInAlt className="mr-2" /> Sign In
+                  <FaSignInAlt className="mb-1 text-2xl" />
+                  Sign In
                 </Link>
               )}
             </div>
