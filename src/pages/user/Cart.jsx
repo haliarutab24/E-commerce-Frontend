@@ -151,19 +151,19 @@ console.log("response",response);
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-primary">
-        Your Cart
-      </h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-[#89B9AD]">
+  Your Cart
+</h1>
       {cartItems.length === 0 ? (
         <div className="text-center text-gray-500">
           Your cart is empty.
           <div className="mt-4">
             <Link
-              to="/products"
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark"
-            >
-              Shop Now
-            </Link>
+  to="/products"
+  className="px-4 py-2 bg-[#89B9AD] text-white rounded hover:bg-[#6fa89c] transition-colors duration-300"
+>
+  Shop Now
+</Link>
           </div>
         </div>
       ) : (
