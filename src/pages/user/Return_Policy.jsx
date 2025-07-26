@@ -143,7 +143,7 @@ const ReturnPolicy = () => {
         >
           <p className="text-gray-700 text-sm md:text-base">
             <strong>To start a return:</strong> Please contact our customer support at{" "}
-            <a href="mailto:support@shopease.com" className="text-[#2a6b5e] font-medium hover:underline">support@shopease.com</a> or visit your{" "}
+            <a href="mailto:support@wahidfoodssmc.com" className="text-[#2a6b5e] font-medium hover:underline">support@wahidfoodssmc.com</a> or visit your{" "}
             <a href="/profile" className="text-[#2a6b5e] font-medium hover:underline">account page</a>.
           </p>
         </div>
@@ -151,7 +151,7 @@ const ReturnPolicy = () => {
         {/* Copyright Footer */}
         <div className="mt-12 md:mt-16 text-center">
           <p className="text-gray-500 text-xs sm:text-sm">
-            &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+            &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
           </p>
         </div>
       </div>

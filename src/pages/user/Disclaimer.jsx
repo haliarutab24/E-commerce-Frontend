@@ -128,7 +128,7 @@ const Disclaimer = () => {
         {/* Footer */}
         <div className="mt-12 md:mt-16 text-center">
           <p className="text-gray-500 text-xs sm:text-sm">
-            &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+            &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
           </p>
         </div>
       </div>

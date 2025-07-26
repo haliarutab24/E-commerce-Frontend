@@ -73,7 +73,8 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl font-bold text-newPrimary mb-8">About Us</h1>
+
+          <h1 className="text-4xl font-bold text-newPrimary mb-8">About Wahid Foods SMC</h1>
         </motion.div>
 
         <motion.p
@@ -82,6 +83,7 @@ const About = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="max-w-2xl text-lg text-gray-700 text-center mb-8"
         >
+
           WahidFoodsSMC is your one-stop destination for premium electronics, fashion, home essentials, and more.
           We are committed to providing a seamless and enjoyable shopping experience, with a focus on quality, value, and customer satisfaction.
         </motion.p>
@@ -117,7 +119,7 @@ const About = () => {
           transition={{ delay: 1, duration: 0.5 }}
           className="mt-12 text-center text-gray-500 text-sm"
         >
-          &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+          &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
         </motion.div>
       </div>
     </div>

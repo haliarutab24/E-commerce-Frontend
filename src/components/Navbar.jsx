@@ -1,28 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaUserCircle, FaBars, FaTimes, FaSignInAlt } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../context/authSlice";
-import axios from 'axios';
+import axios from "axios";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef();
+  const desktopDropdownRef = useRef();
+  const mobileDropdownRef = useRef();
   const mobileMenuRef = useRef();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.auth.userInfo);
 
-  // Close dropdowns when clicking outside
+  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem("userInfo")));
+  const [cartCount, setCartCount] = useState(0);
+
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+  // Click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        desktopDropdownRef.current &&
+        !desktopDropdownRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
       }
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && 
-          !event.target.closest('.mobile-menu-button')) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !event.target.closest(".mobile-menu-button")
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -30,19 +41,18 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL;
-  const [cartCount, setCartCount] = useState(0);
-
+  // Fetch cart count
   useEffect(() => {
     const fetchCart = async () => {
-      const user = JSON.parse(localStorage.getItem('userInfo'));
+      const user = JSON.parse(localStorage.getItem("userInfo"));
       const userId = user?.id;
       if (!userId) return;
 
       try {
         const response = await axios.get(`${API_URL}/cart/${userId}`);
         const cart = response.data;
-        const count = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+        const count =
+          cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
         setCartCount(count);
       } catch (error) {
         setCartCount(0);
@@ -51,41 +61,52 @@ const Navbar = () => {
 
     fetchCart();
     const handleCartUpdate = () => fetchCart();
-    window.addEventListener('cartUpdated', handleCartUpdate);
+    window.addEventListener("cartUpdated", handleCartUpdate);
     const interval = setInterval(fetchCart, 20000);
 
     return () => {
-      window.removeEventListener('cartUpdated', handleCartUpdate);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
       clearInterval(interval);
     };
   }, []);
 
+  // Handle logout
+  const handleLogout = () => {
+    console.log("=== HANDLE LOGOUT CALLED ===");
+    try {
+      dispatch(logout());
+      localStorage.removeItem("userInfo");
+      setUserInfo(null);
+      setShowDropdown(false);
+      setIsMobileMenuOpen(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   const navLinks = [
     { path: "/products", text: "Products" },
+    { path: "/apps", text: "Apps" },
     { path: "/return-policy", text: "Return Policy" },
     { path: "/disclaimer", text: "Disclaimer" },
-    { path: "/apps", text: "Apps" },
     { path: "/about", text: "About" },
-    { path: "/contact", text: "Contact" }
+    { path: "/contact", text: "Contact" },
   ];
 
   return (
-    <nav
-      className="bg-white shadow-md shadow-[#f5f6fa]/30 sticky top-0 z-50"
-      style={{ fontFamily: "'Poppins', sans-serif" }}
-    >
+    <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="flex items-center justify-between px-5 md:px-20 py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center flex-shrink-0">
           <img
-            src="/images/logo2.jpg"
-            alt="Wahid Foods SMC Logo"
+            src="/images/logo.webp"
+            alt="Wahid Foods Logo"
             className="h-14 w-auto"
-            style={{ objectFit: "contain" }}
           />
         </Link>
 
-        {/* Desktop Nav Links */}
+        {/* Desktop Menu */}
         <div className="hidden 900:flex items-center space-x-8">
           {navLinks.map((link) => (
             <Link
@@ -97,7 +118,7 @@ const Navbar = () => {
             </Link>
           ))}
           <Link to="/cart" className="relative">
-            <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
+            <FaShoppingCart className="text-xl text-newPrimary" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-newPrimary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
@@ -105,21 +126,19 @@ const Navbar = () => {
             )}
           </Link>
           {!userInfo ? (
-            <Link
-              to="/login"
-              className="text-newPrimary hover:text-newPrimaryFooter font-medium transition-colors duration-300 flex items-center gap-1"
-            >
+            <Link to="/login" className="flex items-center text-newPrimary gap-1">
               <FaSignInAlt className="text-xl" />
               <span>Sign In</span>
             </Link>
           ) : (
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={desktopDropdownRef}>
               <button
                 onClick={() => setShowDropdown((prev) => !prev)}
-                className="focus:outline-none flex items-center space-x-2"
+                className="flex items-center gap-2"
+                type="button"
               >
-                <FaUserCircle className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
-                <span className="text-newPrimary font-medium hover:text-newPrimaryFooter transition-colors duration-300">
+                <FaUserCircle className="text-xl text-newPrimary" />
+                <span className="text-newPrimary font-medium">
                   {userInfo.username || userInfo.name || userInfo.email}
                 </span>
               </button>
@@ -127,25 +146,22 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg py-2 z-50">
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
+                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white"
                     onClick={() => setShowDropdown(false)}
                   >
                     Profile
                   </Link>
                   <Link
                     to="/orders"
-                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
+                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white"
                     onClick={() => setShowDropdown(false)}
                   >
                     Orders
                   </Link>
                   <button
-                    className="block w-full text-left px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
-                    onClick={() => {
-                      setShowDropdown(false);
-                      dispatch(logout());
-                      navigate("/login");
-                    }}
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white"
                   >
                     Logout
                   </button>
@@ -155,120 +171,61 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Icons (Cart, User, Hamburger) */}
+        {/* Mobile Section */}
         <div className="900:hidden flex items-center space-x-4">
           <Link to="/cart" className="relative">
-            <FaShoppingCart className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
+            <FaShoppingCart className="text-xl text-newPrimary" />
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-newPrimary text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
           </Link>
-          
-          {!userInfo ? (
-            <Link
-              to="/login"
-              className="text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300"
-            >
-              <FaSignInAlt className="text-xl" />
-            </Link>
-          ) : (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setShowDropdown((prev) => !prev)}
-                className="focus:outline-none"
-              >
-                <FaUserCircle className="text-xl text-newPrimary hover:text-newPrimaryFooter transition-colors duration-300" />
-              </button>
-              {showDropdown && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg py-2 z-50">
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
-                    onClick={() => setShowDropdown(false)}
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    to="/orders"
-                    className="block px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
-                    onClick={() => setShowDropdown(false)}
-                  >
-                    Orders
-                  </Link>
-                  <button
-                    className="block w-full text-left px-4 py-2 text-newPrimary hover:bg-newPrimary hover:text-white transition-colors duration-300"
-                    onClick={() => {
-                      setShowDropdown(false);
-                      dispatch(logout());
-                      navigate("/login");
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Mobile Hamburger Button */}
           <button
-            className="mobile-menu-button text-newPrimary focus:outline-none absolute top-6 right-6"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            className="mobile-menu-button text-newPrimary"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            type="button"
           >
-            {isMobileMenuOpen ? (
-              <FaTimes className="text-2xl" />
-            ) : (
-              <FaBars className="text-2xl" />
-            )}
+            {isMobileMenuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div
-          ref={mobileMenuRef}
-          className="900:hidden bg-white shadow-lg py-4 px-5 z-40"
-        >
-          <div className="flex flex-col space-y-4 justify-center items-center">
+        <div ref={mobileMenuRef} className="900:hidden bg-white shadow-lg py-4 px-5 z-40">
+          <div className="flex flex-col space-y-4 items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-newPrimary w-40 justify-center  hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 flex items-center rounded"
+                className="text-newPrimary hover:bg-newPrimary hover:text-white font-medium py-2 px-2 w-full text-center rounded"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.text}
               </Link>
             ))}
-            <div className=" pt-4 border-t border-newPrimary/30 w-40 items-center text-center">
+            <div className="border-t border-gray-200 pt-4 w-full text-center" ref={mobileDropdownRef}>
               {userInfo ? (
                 <>
                   <Link
                     to="/profile"
-                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded flex flex-col justify-center items-center"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <FaUserCircle className="mb-1 text-2xl" />
                     Profile
                   </Link>
                   <Link
                     to="/orders"
-                    className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded flex flex-col justify-center items-center"
+                    className="block text-newPrimary hover:bg-newPrimary hover:text-white py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    My Orders
+                    Orders
                   </Link>
                   <button
-                    className="block w-full text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 rounded flex flex-col justify-center items-center"
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      dispatch(logout());
-                      navigate("/login");
-                    }}
+                    type="button"
+                    className="w-full text-newPrimary hover:bg-newPrimary hover:text-white py-2"
+                    onClick={handleLogout}
                   >
                     Logout
                   </button>
@@ -276,10 +233,9 @@ const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-newPrimary hover:bg-newPrimary hover:text-white font-medium transition-colors duration-300 py-2 px-2 items-center rounded flex flex-col justify-center items-center"
+                  className="block text-newPrimary hover:bg-newPrimary hover:text-white py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <FaSignInAlt className="mb-1 text-2xl" />
                   Sign In
                 </Link>
               )}
