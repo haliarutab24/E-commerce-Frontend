@@ -55,9 +55,9 @@ const Profile = () => {
         <div className="mb-2">
           <span className="font-medium">Email:</span> {user?.email}
         </div>
-        <div>
+        {/* <div>
           <span className="font-medium">Joined:</span> {user?.createdAt?.slice(0, 10) || "Not Show"}
-        </div>
+        </div> */}
       </div>
       {/* Transaction History */}
       <div className="bg-white rounded shadow p-6 mb-10 w-full max-w-6xl mx-auto">

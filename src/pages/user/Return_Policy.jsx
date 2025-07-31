@@ -91,7 +91,7 @@ const ReturnPolicy = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f7] to-[#e0f3ef] py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+   <div className="min-h-screen bg-white py-12 md:py-16 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         {/* Title Section */}
         <div className="text-center mb-12 md:mb-16 px-4">
@@ -141,17 +141,17 @@ const ReturnPolicy = () => {
           className="bg-[#f0f9f7] rounded-xl p-6 text-center max-w-4xl mx-auto border border-[#e0f3ef] shadow-sm"
           style={{ visibility: "hidden" }}
         >
-          <p className="text-gray-700 text-sm md:text-base">
+          {/* <p className="text-gray-700 text-sm md:text-base">
             <strong>To start a return:</strong> Please contact our customer support at{" "}
             <a href="mailto:support@shopease.com" className="text-[#2a6b5e] font-medium hover:underline">support@shopease.com</a> or visit your{" "}
             <a href="/profile" className="text-[#2a6b5e] font-medium hover:underline">account page</a>.
-          </p>
+          </p> */}
         </div>
 
         {/* Copyright Footer */}
         <div className="mt-12 md:mt-16 text-center">
           <p className="text-gray-500 text-xs sm:text-sm">
-            &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+            &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
           </p>
         </div>
       </div>

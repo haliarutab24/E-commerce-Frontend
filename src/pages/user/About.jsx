@@ -66,7 +66,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f7] to-[#e0f3ef]">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -117,7 +117,7 @@ const About = () => {
           transition={{ delay: 1, duration: 0.5 }}
           className="mt-12 text-center text-gray-500 text-sm"
         >
-          &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+          &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
         </motion.div>
       </div>
     </div>

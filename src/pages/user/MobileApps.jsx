@@ -12,7 +12,7 @@ const apps = [
     downloads: "1,200,000+",
     link: "#", // Replace with actual Play Store link
     description:
-      "ShopEase Android app offers a seamless shopping experience, push notifications, and secure payments. Download now and enjoy exclusive mobile deals!",
+      "Wahid Foods SMC Android app offers a seamless shopping experience, push notifications, and secure payments. Download now and enjoy exclusive mobile deals!",
   },
   {
     platform: "iOS",
@@ -23,7 +23,7 @@ const apps = [
     downloads: "900,000+",
     link: "#", // Replace with actual App Store link
     description:
-      "ShopEase iOS app brings you the best of our store, with fast checkout, order tracking, and personalized recommendations. Get it on your iPhone or iPad today!",
+      "Wahid Foods SMC iOS app brings you the best of our store, with fast checkout, order tracking, and personalized recommendations. Get it on your iPhone or iPad today!",
   },
 ];
 
@@ -61,13 +61,13 @@ const cardHoverVariants = {
 };
 
 const MobileApps = () => (
-  <div className="container mx-auto px-4 py-12 min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#f0f9f7] to-[#e0f3ef]">
+  <div className="container mx-auto px-4 py-12 min-h-screen flex flex-col items-center justify-center bg-white">
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="text-4xl font-bold text-newPrimary mb-8 text-center">ShopEase Mobile Apps</h1>
+      <h1 className="text-4xl font-bold text-newPrimary mb-8 text-center">Wahid Foods SMC Mobile Apps</h1>
     </motion.div>
 
     <motion.div
@@ -143,7 +143,7 @@ const MobileApps = () => (
       transition={{ delay: 1, duration: 0.5 }}
       className="mt-12 text-center text-gray-500 text-sm"
     >
-      &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+      &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
     </motion.div>
   </div>
 );

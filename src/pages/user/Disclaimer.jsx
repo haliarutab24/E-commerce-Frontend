@@ -28,7 +28,7 @@ const disclaimerPoints = [
     icon: <FiFileText className="w-6 h-6" />,
     text: (
       <>
-        ShopEase is not liable for any direct, indirect, incidental, or consequential damages arising from the use of products purchased from our site. All purchases are subject to our{" "}
+        Wahid Foods SMC is not liable for any direct, indirect, incidental, or consequential damages arising from the use of products purchased from our site. All purchases are subject to our{" "}
         <a href="/terms" className="text-[#2a6b5e] font-medium hover:underline">Terms & Conditions</a> and{" "}
         <a href="/privacy" className="text-[#2a6b5e] font-medium hover:underline">Privacy Policy</a>.
       </>
@@ -80,21 +80,18 @@ const Disclaimer = () => {
         stagger: staggerDelay,
         ease: "back.out(1.2)",
         delay: 0.3
+
       }
     );
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f9f7] to-[#e0f3ef] py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-12 md:py-16 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
-        {/* Premium Title Section */}
-        <div className="text-center mb-12 md:mb-16 px-4">
+           <div className="text-center mb-12 md:mb-16 px-4">
           <h1 
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-5xl font-bold text-newPrimary mb-4 md:mb-6 leading-tight
-                      "
-            
-          >
+            className="text-4xl sm:text-5xl md:text-5xl font-bold text-newPrimary mb-4 md:mb-6 leading-tight" >
             Product Disclaimer
           </h1>
           <div 
@@ -104,7 +101,6 @@ const Disclaimer = () => {
             
           ></div>
         </div>
-
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
           {disclaimerPoints.map((point, idx) => (
@@ -128,7 +124,7 @@ const Disclaimer = () => {
         {/* Footer */}
         <div className="mt-12 md:mt-16 text-center">
           <p className="text-gray-500 text-xs sm:text-sm">
-            &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+            &copy; {new Date().getFullYear()} Wahid Foods SMC. All rights reserved.
           </p>
         </div>
       </div>

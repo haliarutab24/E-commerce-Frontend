@@ -11,7 +11,7 @@ const statusColor = (status) => {
     case "In Progress":
       return "text-yellow-600";
     case "Delivered":
-    case "completed":
+    case "Completed":
       return "text-green-600";
     case "Cancelled":
     case "failed":
