@@ -1,4 +1,3 @@
-// src/pages/user/Products.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { gsap } from "gsap";
@@ -9,6 +8,7 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [productList, setProductList] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState({}); // New state for button visibility
   const cardsRef = useRef([]);
   const navigate = useNavigate();
 
@@ -20,7 +20,6 @@ const Products = () => {
         const { products, categories } = res.data.data;
         setProductList(products);
         setCategories(categories);
-        console.log(categories);
       } catch (error) {
         console.error("Failed to fetch products or categories", error);
       }
@@ -38,7 +37,7 @@ const Products = () => {
     );
 
   useEffect(() => {
-    // Only animate non-null elements
+    // Animation for product cards
     const elements = cardsRef.current.filter(Boolean);
     if (elements.length === 0) return;
     gsap.fromTo(
@@ -64,51 +63,61 @@ const Products = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      const user = JSON.parse(localStorage.getItem('userInfo')); // adjust key if needed
-      const userId = user?.id; // adjust property if needed
-      console.log("userId", userId);
+      // Immediately disable the button
+      setDisabledButtons(prev => ({ ...prev, [product._id]: true }));
+      
+      const user = JSON.parse(localStorage.getItem('userInfo'));
+      const userId = user?.id;
 
       if (!userId) {
         toast.error('User not logged in');
+        setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
         return;
       }
 
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/cart/add`,
         {
-          userId, // pass userId here
+          userId,
           productId: product._id,
           quantity: 1,
         }
       );
-      console.log("response", response);
+      
       toast.success('Added to cart!');
+      
+      // Re-enable after 2 seconds
+      setTimeout(() => {
+        setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
+      }, 2000);
+      
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to add to cart');
+      setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
     }
   };
-  // Helper to generate a random pastel color
+
   const getRandomColor = () => {
     const hue = Math.floor(Math.random() * 360);
-    return `hsl(${hue}, 70%, 85%)`; // Soft pastel background
+    return `hsl(${hue}, 70%, 85%)`;
   };
-  // If no enabled categories, show nothing
+
   if (!categories.length) return null;
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">All Products</h1>
+      
       {/* Category Filter */}
       <div className="flex flex-wrap justify-center gap-3 mb-8">
         <button
           key="All"
           onClick={() => handleCategoryChange("All")}
-          className={`px-4 py-2 rounded-full border transition ${selectedCategory === "All"
-
+          className={`px-4 py-2 rounded-full border transition ${
+            selectedCategory === "All"
               ? "bg-newPrimary text-white border-newPrimary"
               : "bg-white text-newPrimary border-newPrimary hover:bg-newPrimary hover:text-white"
-
-            }`}
+          }`}
         >
           All
         </button>
@@ -116,23 +125,23 @@ const Products = () => {
           <button
             key={cat.name}
             onClick={() => handleCategoryChange(cat.name)}
-            className={`px-4 py-2 rounded-full border transition ${selectedCategory === cat.name
-
+            className={`px-4 py-2 rounded-full border transition ${
+              selectedCategory === cat.name
                 ? "bg-newPrimary text-white border-newPrimary"
                 : "bg-white text-newPrimary border-newPrimary hover:bg-newPrimary hover:text-white"
-
-              }`}
+            }`}
           >
             {cat.name}
           </button>
         ))}
       </div>
-      {/* Product    */}
+      
+      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {filteredProducts.map((product, idx) => {
           const desc = product.description || "";
-          const isLong = desc.length > 200; // adjust as needed for 2 lines
-          // console.log("product.category:", product.category);
+          const isLong = desc.length > 200;
+          
           return (
             <div
               key={product._id}
@@ -150,7 +159,6 @@ const Products = () => {
                 <div className="flex flex-wrap gap-2">
                   {Array.isArray(product.category) && product.category.map((cat, idx) => {
                     if (typeof cat === "object" && cat !== null) {
-                      // Populated object
                       return (
                         <span
                           key={cat._id || idx}
@@ -161,7 +169,6 @@ const Products = () => {
                         </span>
                       );
                     } else {
-                      // ID, match with categories array
                       const matchedCategory = categories.find((c) => c._id === cat);
                       return (
                         <span
@@ -180,29 +187,29 @@ const Products = () => {
                 </p>
 
                 {isLong && (
-                  <button
-
-                   
-                    onClick={() => navigate(`/products/${product._id}`)}
-                  >
+                  <button onClick={() => navigate(`/products/${product._id}`)}>
                     See more
                   </button>
                 )}
 
                 <div className="mt-4 flex items-center justify-between">
                   <span
-                    className={`text-xs font-medium ${product.stock > 0 ? "text-green-600" : "text-red-500"
-                      }`}
+                    className={`text-xs font-medium ${
+                      product.stock > 0 ? "text-green-600" : "text-red-500"
+                    }`}
                   >
                     {product.stock > 0 ? "In Stock" : "Out of Stock"}
                   </span>
                   <button
                     onClick={() => handleAddToCart(product)}
-                    disabled={product.stock <= 0}
-
-                    className={`px-3 py-1 rounded bg-newPrimary text-white text-sm font-semibold transition hover:bg-newPrimaryDark ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
-
-                      }`}
+                    disabled={product.stock <= 0 || disabledButtons[product._id]}
+                    className={`px-3 py-1 rounded bg-newPrimary text-white text-sm font-semibold transition-all duration-300 ${
+                      product.stock <= 0 
+                        ? "opacity-50 cursor-not-allowed" 
+                        : disabledButtons[product._id] 
+                          ? "opacity-0 h-0 py-0 overflow-hidden" 
+                          : "hover:bg-newPrimaryDark"
+                    }`}
                   >
                     Add to Cart
                   </button>
@@ -212,6 +219,7 @@ const Products = () => {
           );
         })}
       </div>
+      
       {filteredProducts.length === 0 && (
         <div className="text-center text-gray-500 mt-10">No products found.</div>
       )}

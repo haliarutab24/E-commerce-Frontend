@@ -144,10 +144,27 @@ const ProductsPage = () => {
     e.preventDefault();
 
     // --- 1. VALIDATION FIRST ---
-    if (Number(editFormState.price) <= 145) {
-      toast.error("Price must be greater than 145.");
-      return; // Stop here. `editLoading` is still false.
-    }
+    // if (Number(editFormState.price) <= 145) {
+    //   toast.error("Price must be greater than 145.");
+    //   return; // Stop here. `editLoading` is still false.
+    // }
+
+// --- 1. VALIDATION FIRST ---
+const priceInUSD = Number(editFormState.price); 
+const minPriceUSD = 0.5;
+const maxPriceUSD = 999999.99;
+// Validate minimum price (must be > 0.5 USD)
+if (priceInUSD <= minPriceUSD) {
+  toast.error(`Price must be greater than ${minPriceUSD} USD.`);
+  return;
+}
+
+// Validate maximum price (must be ≤ 999,999.99 USD)
+if (priceInUSD > maxPriceUSD) {
+  toast.error(`Price cannot exceed ${maxPriceUSD.toLocaleString()} USD.`);
+  return;
+}
+
 
     // --- 2. SET LOADING STATE ---
     setEditLoading(true);
