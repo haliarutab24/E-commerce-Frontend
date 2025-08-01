@@ -28,6 +28,7 @@ import Category from "./pages/admin/Category";
 import { useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Success from "./pages/Success";
+import ForgotPassword from "./pages/user/ForgotPassword";
 import Cancel from "./pages/user/Cancel";
 import ProductCategories from "./pages/user/ProductPromotions";
 
@@ -52,6 +53,8 @@ function AppContent() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />

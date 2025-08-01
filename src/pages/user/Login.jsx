@@ -10,6 +10,7 @@ import { loginSuccess } from "../../context/authSlice";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -19,6 +20,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
@@ -51,6 +53,35 @@ const Login = () => {
         error.message ||
         "Login failed. Please try again."
       );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error("Please enter your email first!");
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/auth/forgot-password`,
+        { email }
+      );
+
+      toast.success(data.message || "Password reset email sent successfully!");
+      
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to send reset email. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,11 +110,25 @@ const Login = () => {
               required
             />
           </div>
+          
+          {/* Forgot Password Link */}
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              disabled={isLoading}
+              className="text-sm text-newPrimary hover:text-newPrimaryDark disabled:opacity-50"
+            >
+              Forgot Password?
+            </button>
+          </div>
+          
           <button
             type="submit"
-            className="w-full bg-newPrimary text-white py-2 rounded-md hover:bg-newPrimary/80"
+            disabled={isLoading}
+            className="w-full bg-newPrimary text-white py-2 rounded-md hover:bg-newPrimary/80 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
 
           <p className="text-center text-gray-600">
