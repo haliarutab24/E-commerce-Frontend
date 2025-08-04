@@ -15,7 +15,7 @@ const TransactionsPage = () => {
         );
         console.log("Fetched transactions:", data)
         
-        // Sort transactions by createdAt in descending order (newest first)
+        // Transactions are already sorted by backend, but we can sort again if needed
         const sortedTransactions = Array.isArray(data.data) 
           ? data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           : [];
@@ -51,7 +51,7 @@ const TransactionsPage = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="py-2 px-4 text-left">Txn ID</th>
-              <th className="py-2 px-4 text-left">User</th>
+              <th className="py-2 px-4 text-left">Username</th>
               <th className="py-2 px-4 text-left">Product</th>
               <th className="py-2 px-4 text-left">Total Amount</th>
               <th className="py-2 px-4 text-left">Status</th>
@@ -70,7 +70,9 @@ const TransactionsPage = () => {
                 txn.products.map((prod, idx) => (
                   <tr key={txn._id + "-" + prod._id} className="border-b">
                     <td className="py-2 px-4">{txn.transactionId.slice(0, 20)}</td>
-                    <td className="py-2 px-4">{(txn.userId || "N/A").toString().slice(0, 10)}</td>
+                    <td className="py-2 px-4">
+                      {txn.userId?.username || txn.userId?.name || "N/A"}
+                    </td>
                     <td className="py-2 px-4">{prod.name}</td>
                     <td className="py-2 px-4">${txn.totalAmount}</td>
                     <td className="py-2 px-4">
