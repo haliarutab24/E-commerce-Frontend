@@ -31,13 +31,15 @@ import Success from "./pages/Success";
 import ForgotPassword from "./pages/user/ForgotPassword";
 import Cancel from "./pages/user/Cancel";
 import ProductCategories from "./pages/user/ProductPromotions";
+import ResetPassword from "./pages/user/ResetPassword";
 
 
 function AppContent() {
   const location = useLocation();
   const hideFooterRoutes = [
     "/login",
-    "/signup"
+    "/signup",
+    "/forgot-password"
   ];
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isHideFooterRoute = hideFooterRoutes.includes(location.pathname);
@@ -54,7 +56,7 @@ function AppContent() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<SingleProduct />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-        
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />

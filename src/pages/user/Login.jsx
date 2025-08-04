@@ -59,30 +59,7 @@ const Login = () => {
   };
 
   const handleForgotPassword = async () => {
-    if (!email) {
-      toast.error("Please enter your email first!");
-      return;
-    }
-    
-    setIsLoading(true);
-    
-    try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/forgot-password`,
-        { email }
-      );
-
-      toast.success(data.message || "Password reset email sent successfully!");
-      
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to send reset email. Please try again."
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    navigate("/forgot-password");
   };
 
   return (
