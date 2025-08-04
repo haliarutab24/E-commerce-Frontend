@@ -15,8 +15,12 @@ const TransactionsPage = () => {
         );
         console.log("Fetched transactions:", data)
         
-        // data.data is the array of transactions
-        setTransactions(Array.isArray(data.data) ? data.data : []);
+        // Sort transactions by createdAt in descending order (newest first)
+        const sortedTransactions = Array.isArray(data.data) 
+          ? data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          : [];
+        
+        setTransactions(sortedTransactions);
         setTimeout(() => {
           setLoading(false);
         }, 1500);
@@ -37,7 +41,6 @@ const TransactionsPage = () => {
     );
   }
 
-
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-primary text-center">
@@ -50,8 +53,6 @@ const TransactionsPage = () => {
               <th className="py-2 px-4 text-left">Txn ID</th>
               <th className="py-2 px-4 text-left">User</th>
               <th className="py-2 px-4 text-left">Product</th>
-              
-             
               <th className="py-2 px-4 text-left">Total Amount</th>
               <th className="py-2 px-4 text-left">Status</th>
               <th className="py-2 px-4 text-left">Date</th>
@@ -71,7 +72,6 @@ const TransactionsPage = () => {
                     <td className="py-2 px-4">{txn.transactionId.slice(0, 20)}</td>
                     <td className="py-2 px-4">{(txn.userId || "N/A").toString().slice(0, 10)}</td>
                     <td className="py-2 px-4">{prod.name}</td>
-                    
                     <td className="py-2 px-4">${txn.totalAmount}</td>
                     <td className="py-2 px-4">
                       <span 
