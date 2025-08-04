@@ -9,7 +9,6 @@ import {
   TableHead,
   TableCell,
 } from "../../components/ui/table";
-import User from "../../components/Dashboard/User";
 import { PuffLoader } from "react-spinners"; // ✅ Loader import
 
 const AdminDashboard = () => {
@@ -61,7 +60,7 @@ const AdminDashboard = () => {
       </h1>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
         <div className="bg-white rounded shadow p-6 flex flex-col items-center">
           <span className="text-2xl font-bold text-primary">
             {allProducts.length}
@@ -78,10 +77,7 @@ const AdminDashboard = () => {
           <span className="text-2xl font-bold text-primary">${transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
           <span className="text-gray-600 mt-2">Total Transactions</span>
         </div>
-        <div className="bg-white rounded shadow p-6 flex flex-col items-center">
-          <span className="text-2xl font-bold text-primary">${transactions.reduce((sum, txn) => sum + txn.totalAmount, 0)}</span>
-          <span className="text-gray-600 mt-2">Total Revenue</span>
-        </div>
+        
       </div>
 
       {/* Dashboard View */}
@@ -138,10 +134,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* User Card */}
-        <div className="w-full lg:w-[22rem] flex-shrink-0">
-          <User users={users} />
-        </div>
+        
       </div>
     </div>
   );
