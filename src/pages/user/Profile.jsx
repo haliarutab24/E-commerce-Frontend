@@ -8,26 +8,29 @@ const Profile = () => {
 
   const user = JSON.parse(localStorage.getItem("userInfo") || "null");
   // console.log("user" ,user);
+ 
+ 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/transactions`,
-          
+          `${import.meta.env.VITE_API_BASE_URL}/transactions`
         );
-
-        console.log("data" ,data);
-        // Filter transactions for the logged-in user
+  
         const allTransactions = Array.isArray(data.data) ? data.data : [];
-        // console.log("allTransactions" ,allTransactions);
-        
-        const userTransactions = allTransactions.filter(
-          txn => txn.userId === user.id
-        );
-        console.log("user" ,transactions);
-        // console.log("userTransactions" ,userTransactions);
+  
+        const userTransactions = allTransactions
+          .filter(txn => txn.userId === user.id)
+          .map(txn => ({
+            ...txn,
+            formattedDate: new Date(txn.createdAt).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            }),
+          }));
+  
         setTransactions(userTransactions);
-        // console.log("Filtered transactions for user:", user.id, userTransactions);
       } catch (error) {
         setTransactions([]);
         console.log("API error:", error);
@@ -35,9 +38,10 @@ const Profile = () => {
         setLoading(false);
       }
     };
+  
     if (user) fetchTransactions();
-    
   }, [user]);
+  
 
   useEffect(() => {
     // console.log("Transactions state:", transactions);
@@ -47,7 +51,7 @@ const Profile = () => {
     <div className="container mx-auto px-4 py-10 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-newPrimary text-center">Profile</h1>
       {/* User Details */}
-      <div className="bg-white rounded shadow p-6 mb-10 max-w-xl mx-auto">
+      <div className="bg-white rounded shadow p-6 mb-10 w-full max-w-6xl mx-auto">
         <h2 className="text-xl font-semibold mb-4">User Details</h2>
         <div className="mb-2">
           <span className="font-medium">Name:</span> {user?.name || user?.username}
@@ -55,9 +59,7 @@ const Profile = () => {
         <div className="mb-2">
           <span className="font-medium">Email:</span> {user?.email}
         </div>
-        <div>
-          <span className="font-medium">Joined:</span> {user?.createdAt?.slice(0, 10) || "Not Show"}
-        </div>
+        
       </div>
       {/* Transaction History */}
       <div className="bg-white rounded shadow p-6 mb-10 w-full max-w-6xl mx-auto">
@@ -83,7 +85,7 @@ const Profile = () => {
                   txn.products.map(prod => (
                     <tr key={txn._id + "-" + prod._id}>
                       <td className="py-2 px-4">{txn.transactionId.slice(0, 15)}</td>
-                      <td className="py-2 px-4">{new Date(txn.createdAt).toLocaleDateString()}</td>
+                      <td className="py-2 px-4">{txn.formattedDate}</td>
                       <td className="py-2 px-4">{prod.name}</td>
                       <td className="py-2 px-4">${(txn.totalAmount).toFixed(2)}</td>
                       <td className="py-2 px-4">

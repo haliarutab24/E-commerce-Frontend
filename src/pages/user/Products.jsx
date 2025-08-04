@@ -11,6 +11,7 @@ const Products = () => {
   const [productList, setProductList] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [disabledButtons, setDisabledButtons] = useState({});
   const cardsRef = useRef([]);
   const navigate = useNavigate();
 
@@ -74,12 +75,15 @@ const Products = () => {
 
   const handleAddToCart = async (product) => {
     try {
+      setDisabledButtons(prev => ({ ...prev, [product._id]: true }));
+
       const user = JSON.parse(localStorage.getItem('userInfo'));
       const userId = user?.id;
       console.log("userId", userId);
 
       if (!userId) {
         toast.error('User not logged in');
+        setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
         return;
       }
 
@@ -93,8 +97,16 @@ const Products = () => {
       );
       console.log("response", response);
       toast.success('Added to cart!');
+      
+      // Reset button after 2 seconds on success
+      setTimeout(() => {
+        setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
+      }, 1000);
+      
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to add to cart');
+      // Reset button immediately on error
+      setDisabledButtons(prev => ({ ...prev, [product._id]: false }));
     }
   };
 
@@ -159,8 +171,9 @@ const Products = () => {
           return (
             <div
               key={product._id}
+              onClick={() => navigate(`/products/${product._id}`)}
               ref={el => (cardsRef.current[idx] = el)}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition flex flex-col"
+              className="bg-white rounded-lg cursor-pointer shadow hover:shadow-lg transition flex flex-col"
             >
               <img
                 src={product.images?.[0]?.url}
@@ -172,6 +185,7 @@ const Products = () => {
                 <p className="text-newPrimary font-bold text-xl mb-2">${product.price}</p>
                 <div className="flex flex-wrap gap-2">
                   {Array.isArray(product.category) && product.category.map((cat, idx) => {
+                    
                     if (typeof cat === "object" && cat !== null) {
                       return (
                         <span
@@ -214,10 +228,10 @@ const Products = () => {
                   </span>
                   <button
                     onClick={() => handleAddToCart(product)}
-                    disabled={product.stock <= 0}
+                    disabled={product.stock <= 0 || disabledButtons[product._id]}
                     className={`px-3 py-1 rounded bg-newPrimary text-white text-sm font-semibold transition hover:bg-newPrimaryDark ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    Add to Cart
+                    {disabledButtons[product._id] ? "Adding..." : "Add to Cart"}
                   </button>
                 </div>
               </div>

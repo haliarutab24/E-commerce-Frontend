@@ -28,24 +28,34 @@ const Orders = () => {
   // Get user info from localStorage (adjust key as needed)
   const user = JSON.parse(localStorage.getItem('userInfo'));
   const userId = user?.id || user?._id;
-
   useEffect(() => {
     const fetchOrders = async () => {
       if (!userId) return;
       try {
-        // Adjust endpoint as per your backend
         const res = await axios.get(`${API_URL}/orders?userId=${userId}`);
-        // If your backend returns { success: true, data: [...] }
         const data = res.data.data || res.data;
-        setOrders(data);
+  
+        // Add formatted date field
+        const userOrders = (Array.isArray(data) ? data : []).map(order => ({
+          ...order,
+          formattedDate: new Date(order.createdAt).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+        }));
+  
+        setOrders(userOrders);
       } catch (err) {
         setOrders([]);
       } finally {
         setLoading(false);
       }
     };
+  
     fetchOrders();
   }, [userId]);
+  
 
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen">
@@ -92,7 +102,7 @@ const Orders = () => {
                     {order.products.reduce((sum, prod) => sum + (prod.quantity || 1), 0)}
                   </td>
                   <td className="py-2 px-4">${order.totalAmount.toFixed(2)}</td>
-                  <td className="py-2 px-4">{new Date(order.createdAt).toLocaleDateString()}</td>
+                  <td className="py-2 px-4">{order.formattedDate}</td>
                   <td className={`py-2 px-4 font-semibold ${statusColor(order.paymentStatus)}`}>
                     {order.paymentStatus}
                   </td>

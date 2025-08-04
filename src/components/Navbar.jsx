@@ -77,6 +77,7 @@ const Navbar = () => {
       dispatch(logout());
       localStorage.removeItem("userInfo");
       setUserInfo(null);
+      setCartCount(0);            // <-- reset cart indicator
       setShowDropdown(false);
       setIsMobileMenuOpen(false);
       navigate("/login");
