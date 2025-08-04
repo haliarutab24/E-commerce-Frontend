@@ -39,7 +39,6 @@ const UsersTable = () => {
     );
   }
 
-
   // Update user status
   const handleStatusChange = async (id, newStatus) => {
     try {
@@ -83,6 +82,7 @@ const UsersTable = () => {
             <tr className="bg-gray-100">
               <th className="py-2 px-4 text-left">Username</th>
               <th className="py-2 px-4 text-left">Email</th>
+              <th className="py-2 px-4 text-left">Role</th>
               <th className="py-2 px-4 text-left">Verified</th>
               <th className="py-2 px-4 text-left">Status</th>
               <th className="py-2 px-4 text-left">Actions</th>
@@ -91,13 +91,13 @@ const UsersTable = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-500">
+                <td colSpan={6} className="text-center py-6 text-gray-500">
                   Loading...
                 </td>
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-500">
+                <td colSpan={6} className="text-center py-6 text-gray-500">
                   No users found.
                 </td>
               </tr>
@@ -109,6 +109,15 @@ const UsersTable = () => {
                 >
                   <td className="py-2 px-4">{user.username || user.name}</td>
                   <td className="py-2 px-4">{user.email}</td>
+                  <td className="py-2 px-4">
+                    <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                      user.role === 'admin' || user.isAdmin 
+                        ? 'bg-purple-100 text-purple-800' 
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {user.role === 'admin' || user.isAdmin ? 'Admin' : 'User'}
+                    </span>
+                  </td>
                   <td className="py-2 px-4">
                     {user.isVerified ? (
                       <span className="text-green-600 text-lg">✅</span>
@@ -141,12 +150,15 @@ const UsersTable = () => {
                           Suspend
                         </button>
                       )}
-                      <button
-                        onClick={() => handleDelete(user._id)}
-                        className="w-20 px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-xs font-semibold text-center"
-                      >
-                        Delete
-                      </button>
+                      {/* Only show delete button if user is NOT an admin */}
+                      {!(user.role === 'admin' || user.isAdmin) && (
+                        <button
+                          onClick={() => handleDelete(user._id)}
+                          className="w-20 px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-xs font-semibold text-center"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
