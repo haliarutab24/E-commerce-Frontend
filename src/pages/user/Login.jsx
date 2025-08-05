@@ -28,7 +28,7 @@ const Login = () => {
       );
 
       const user = data.user || data;
-
+        
       dispatch(loginSuccess(user));
       localStorage.setItem("userInfo", JSON.stringify(user));
       toast.success("Logged in successfully 🎉");

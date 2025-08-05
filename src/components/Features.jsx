@@ -41,13 +41,7 @@ const Features = () => {
               <h2 className="text-3xl lg:text-4xl font-bold text-newPrimary mb-4">
                 {section.name} Products
               </h2>
-              {/* <p className="text-black text-lg">
-                {section.name === "features"
-                  ? "Discover our handpicked selection of premium products"
-                  : section.name === "discount"
-                  ? "Great deals on your favorite items"
-                  : `Explore our ${section.name} products`}
-              </p> */}
+           
             </div>
             {loading ? (
               <div className="flex justify-center items-center h-40">
