@@ -77,16 +77,16 @@ const TermsConditions = () => {
 
           <h2 className="text-xl font-semibold text-gray-900 mb-2">5. Governing Law</h2>
           <p className="text-gray-800 mb-4 leading-relaxed">
-            These terms shall be governed by and construed in accordance with the laws of [Your Country/State]. Any disputes shall be subject to the exclusive jurisdiction of courts in [Your City].
+            These terms shall be governed by and construed in accordance with the laws of Pakistan. Any disputes shall be subject to the exclusive jurisdiction of courts in Lahore.
           </p>
 
           <p className="text-sm italic text-gray-600">
-            Last updated: [Date]. For questions, contact us at{" "}
+            Last updated: Augest 2025 . For questions, contact us at{" "}
             <a
-              href="mailto:legal@wahidfoods.com"
+              href="mailto:www.wahidfoodssmc.com"
               className="text-blue-700 underline"
             >
-              legal@wahidfoods.com
+             www.wahidfoodssmc.com
             </a>.
           </p>
         </div>
