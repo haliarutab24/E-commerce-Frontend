@@ -6,7 +6,7 @@ const disclaimerPoints = [
   {
     title: "Accuracy of Information",
     icon: <FiAlertTriangle className="w-6 h-6" />,
-    text: "While we strive to provide accurate descriptions, images, and pricing for all products listed on ShopEase, we cannot guarantee that all information is always up-to-date or error-free. Product colors, packaging, and specifications may vary from those shown due to manufacturer updates or differences in display settings.",
+    text: "While we strive to provide accurate descriptions, images, and pricing for all products listed on Wahid Foods SMC., we cannot guarantee that all information is always up-to-date or error-free. Product colors, packaging, and specifications may vary from those shown due to manufacturer updates or differences in display settings.",
   },
   {
     title: "Product Availability",
@@ -16,7 +16,7 @@ const disclaimerPoints = [
   {
     title: "Health & Safety",
     icon: <FiShield className="w-6 h-6" />,
-    text: "Please read all product labels, warnings, and directions provided by the manufacturer before use. ShopEase is not responsible for any adverse effects or damages resulting from the use or misuse of any product purchased through our platform.",
+    text: "Please read all product labels, warnings, and directions provided by the manufacturer before use. Wahid Foods SMC. is not responsible for any adverse effects or damages resulting from the use or misuse of any product purchased through our platform.",
   },
   {
     title: "External Links",
@@ -28,7 +28,7 @@ const disclaimerPoints = [
     icon: <FiFileText className="w-6 h-6" />,
     text: (
       <>
-        ShopEase is not liable for any direct, indirect, incidental, or consequential damages arising from the use of products purchased from our site. All purchases are subject to our{" "}
+        Wahid Foods SMC. is not liable for any direct, indirect, incidental, or consequential damages arising from the use of products purchased from our site. All purchases are subject to our{" "}
         <a href="/terms" className="text-[#2a6b5e] font-medium hover:underline">Terms & Conditions</a> and{" "}
         <a href="/privacy" className="text-[#2a6b5e] font-medium hover:underline">Privacy Policy</a>.
       </>

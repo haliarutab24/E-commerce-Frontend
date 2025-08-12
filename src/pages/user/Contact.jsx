@@ -85,7 +85,7 @@ const Contact = () => {
         </button>
       </form>
       <div className="mt-16 text-center text-black text-base">
-        Or email us directly at <a href="mailto:support@shopease.com" className="text-newPrimary hover:text-black underline transition-colors duration-300 font-medium">support@shopease.com</a>
+        Or email us directly at <a href="mailto:support@wahidfoods.com" className="text-newPrimary hover:text-black underline transition-colors duration-300 font-medium">support@wahidfoodssmc.com</a>
       </div>
     </div>
   );
