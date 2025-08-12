@@ -51,10 +51,10 @@ const Complaints = () => {
                 href="mailto:support@wahidfoods.com"
                 className="text-green-700 font-medium underline"
               >
-                support@wahidfoods.com
+               www.wahidfoodssmc.com
               </a>{" "}
               or call our dedicated helpline at{" "}
-              <span className="font-bold text-green-700">+92-300-1234567</span>.
+              <span className="font-bold text-green-700">+92 3106828888</span>.
             </li>
             <li>
               <strong>Response Time:</strong> We acknowledge all complaints
