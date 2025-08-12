@@ -81,7 +81,7 @@ const TermsConditions = () => {
           </p>
 
           <p className="text-sm italic text-gray-600">
-            Last updated: Augest 2025 . For questions, contact us at{" "}
+            Last updated: August 2025 . For questions, contact us at{" "}
             <a
               href="mailto:www.wahidfoodssmc.com"
               className="text-blue-700 underline"
