@@ -32,7 +32,7 @@ const TermsConditions = () => {
       >
         {/* Column 1 */}
         <div className="min-h-[200px]">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4 border-b-4 border-blue-500 pb-2">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4 border-b-4 border-newPrimary pb-2">
             Terms and Conditions
           </h1>
           <p className="text-gray-800 mb-4 leading-relaxed">
