@@ -23,7 +23,7 @@ const ShippingAndCancellation = () => {
       ref={sectionRef}
       className="max-w-4xl my-10 mx-auto p-12 bg-white  rounded-2xl shadow-lg border border-newPrimary"
     >
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <h2 className="text-3xl font-bold text-newPrimary mb-4">
         📦 Shipping Policy
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2">
@@ -34,7 +34,7 @@ const ShippingAndCancellation = () => {
         <li>Shipping costs vary based on location and weight.</li>
       </ul>
 
-      <h2 className="text-3xl font-bold text-gray-900 mt-8 mb-4">
+      <h2 className="text-3xl font-bold text-newPrimary mt-8 mb-4">
         ❌ Cancellation Policy
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2">
