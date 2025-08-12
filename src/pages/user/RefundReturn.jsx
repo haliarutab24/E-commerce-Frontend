@@ -37,7 +37,7 @@ const RefundReturn = () => {
             Refund, Return & Exchange Policy
           </h1>
           <p className="text-gray-800 mb-4 leading-relaxed">
-            At <span className="font-semibold text-blue-700">Wahid Foods SMC</span>, we strive to ensure your satisfaction. This policy outlines the conditions under which refunds, returns, or exchanges may be processed for products purchased through our website.
+            At <span className="font-semibold text-newPrimary">Wahid Foods SMC</span>, we strive to ensure your satisfaction. This policy outlines the conditions under which refunds, returns, or exchanges may be processed for products purchased through our website.
           </p>
 
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Eligibility for Returns</h2>
@@ -62,7 +62,7 @@ const RefundReturn = () => {
             For further assistance or inquiries regarding our refund, return, or exchange policy, please contact us at{" "}
             <a
               href="mailto:support@wahidfoodssmc.com"
-              className="text-blue-700 underline"
+              className="text-newPrimary underline"
             >
              support@wahidfoodssmc.com
             </a>.
