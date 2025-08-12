@@ -35,7 +35,7 @@ const Complaints = () => {
           Complaints Handling Mechanism
         </h1>
         <p className="text-gray-700 text-lg leading-relaxed mb-6">
-          At <span className="font-semibold text-green-600">Wahid Foods SMC</span>,
+          At <span className="font-semibold text-newPrimary">Wahid Foods SMC</span>,
           we value our customers and strive to ensure complete satisfaction with
           every order. In the rare event that you encounter any issue, we have a
           transparent and responsive complaints-handling process in place to
@@ -49,12 +49,12 @@ const Complaints = () => {
               via email at{" "}
               <a
                 href="mailto:support@wahidfoodssmc.com"
-                className="text-green-700 font-medium underline"
+                className="text-newPrimary font-medium underline"
               >
               support@wahidfoodssmc.com
               </a>{" "}
               or call our dedicated helpline at{" "}
-              <span className="font-bold text-green-700">+92 3106828888</span>.
+              <span className="font-bold text-newPrimary">+92 3106828888</span>.
             </li>
             <li>
               <strong>Response Time:</strong> We acknowledge all complaints
