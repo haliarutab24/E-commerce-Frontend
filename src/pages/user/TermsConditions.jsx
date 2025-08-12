@@ -36,7 +36,7 @@ const TermsConditions = () => {
             Terms and Conditions
           </h1>
           <p className="text-gray-800 mb-4 leading-relaxed">
-            Welcome to <span className="font-semibold text-blue-700">Wahid Foods SMC Pvt Ltd</span> Room no. 1120,Goldcrest Mall, Phase # 4, DHA, Lahore. Contact #: 03106828888. By using our website, you agree to these terms.
+            Welcome to <span className="font-semibold text-newPrimary">Wahid Foods SMC Pvt Ltd</span> Room no. 1120,Goldcrest Mall, Phase # 4, DHA, Lahore. Contact #: 03106828888. By using our website, you agree to these terms.
           </p>
 
           <h2 className="text-xl font-semibold text-gray-900 mb-2">1. General Terms</h2>
@@ -84,7 +84,7 @@ const TermsConditions = () => {
             Last updated: August 2025 . For questions, contact us at{" "}
             <a
               href="mailto:support@wahidfoodssmc.com"
-              className="text-blue-700 underline"
+              className="text-newPrimary underline"
             >
              support@wahidfoodssmc.com
             </a>.
