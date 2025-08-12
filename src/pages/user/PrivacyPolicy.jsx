@@ -85,10 +85,10 @@ const PrivacyPolicy = () => {
             By using our site, you agree to this policy. For questions, contact
             us at{" "}
             <a
-              href="mailto:privacy@wahidfoods.com"
+              href="mailto:support@wahidfoodssmc.com"
               className="text-green-700 underline"
             >
-              privacy@wahidfoods.com
+             support@wahidfoodssmc.com
             </a>.
           </p>
         </div>
