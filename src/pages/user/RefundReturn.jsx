@@ -53,7 +53,7 @@ const RefundReturn = () => {
         <div className="min-h-[200px]">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Refund & Exchange Process</h2>
           <ul className="list-disc list-inside text-gray-800 space-y-1">
-            <li>Refunds for eligible, saleable goods will be credited within <span className="font-semibold">[Number]</span> days of our receipt of the items.</li>
+            <li>Refunds for eligible, saleable goods will be credited within <span className="font-semibold">10</span> days of our receipt of the items.</li>
             <li>In lieu of a refund, we may offer store credit of equivalent value, allowing you to exchange for other products on our website.</li>
             <li>Customers are responsible for covering shipping costs associated with returning goods.</li>
           </ul>
@@ -61,10 +61,10 @@ const RefundReturn = () => {
           <p className="text-sm italic text-gray-600 mt-4">
             For further assistance or inquiries regarding our refund, return, or exchange policy, please contact us at{" "}
             <a
-              href="mailto:support@wahidfoods.com"
+              href="mailto:support@wahidfoodssmc.com"
               className="text-blue-700 underline"
             >
-              www.wahidfoodssmc.com
+             support@wahidfoodssmc.com
             </a>.
           </p>
         </div>
