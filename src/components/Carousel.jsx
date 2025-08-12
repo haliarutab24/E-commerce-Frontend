@@ -10,12 +10,12 @@ const Carousel = () => {
 
   // Image from public/images folder
   const images = [
-    "/images/1.png", 
-    "/images/2.jpg",
-    "/images/3.png",
-    "/images/4.png",
-    "/images/5.png",
-    "/images/6.png",
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754974051/aifnzpbaw7cvx4trzetq.jpg", 
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754972791/x16k6iih58fj3h7kwljq.jpg",
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754974050/zvbc3lalv5aqoz2bb7j5.jpg",
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754974051/oercbpdztuactoorl2bh.jpg",
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754972792/rinctxepuwp4zuuzhurz.png",
+    "https://res.cloudinary.com/daexycwc7/image/upload/v1754972791/fmvk8xc2k0bdjegk79uf.png",
   ];
 
   // Preload all images
