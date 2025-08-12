@@ -32,7 +32,11 @@ import ForgotPassword from "./pages/user/ForgotPassword";
 import Cancel from "./pages/user/Cancel";
 import ProductCategories from "./pages/user/ProductPromotions";
 import ResetPassword from "./pages/user/ResetPassword";
-
+import ShippingAndCancellation from './pages/user/ShippingAndCancellation'
+import Complaints from "./pages/user/Complaints";
+import PrivacyPolicy from "./pages/user/PrivacyPolicy";
+import RefundReturn from "./pages/user/RefundReturn";
+import TermsConditions from "./pages/user/TermsConditions";
 
 function AppContent() {
   const location = useLocation();
@@ -69,6 +73,16 @@ function AppContent() {
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/apps" element={<MobileApps />} />
+
+          {/* Static Pages */}
+
+          <Route path="/ship-cancel" element={<ShippingAndCancellation />} />
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/refund-return-exchange" element={<RefundReturn />} />
+          <Route path="/terms-conditions" element={<TermsConditions/>} />
+
+          
 
           {/* Admin Layout Route */}
           <Route

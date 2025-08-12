@@ -97,16 +97,15 @@ const ReturnPolicy = () => {
         <div className="text-center mb-12 md:mb-16 px-4">
           <h1 
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-4xl font-bold text-newPrimary mb-4 md:mb-6 leading-tight
-                      drop-shadow-[0_2px_2px_rgba(137,185,173,0.4)]"
+            className="text-4xl sm:text-5xl md:text-4xl font-bold text-newPrimary mb-4 leading-tight"
           >
             Return Policy
           </h1>
-          <div 
+          {/* <div 
             className="w-32 h-2 bg-gradient-to-r from-[#89B9AD] to-[#2a6b5e] mx-auto rounded-full 
                       origin-left transform scale-x-0"
             
-          ></div>
+          ></div> */}
           <p 
             className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto mt-6"
             
