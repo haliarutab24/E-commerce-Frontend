@@ -31,7 +31,7 @@ const Complaints = () => {
       <div
         className="max-w-5xl w-full bg-white text-gray-900 rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 p-8 gap-8 border border-gray-300 overflow-visible"
       >
-        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-6 border-b-4 border-green-500 pb-2">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-6 border-b-4 border-newPrimary pb-2">
           Complaints Handling Mechanism
         </h1>
         <p className="text-gray-700 text-lg leading-relaxed mb-6">
