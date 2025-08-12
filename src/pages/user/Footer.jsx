@@ -35,23 +35,23 @@ const Footer = () => {
 
   return (
 
-    <footer className="h-96 bg-newPrimaryFooter max-h-screen my-20 border-t-2">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="space-y-6">
-            <Link
-              to="/"
-              className="flex items-center gap-3 font-bold text-3xl text-black hover:text-newPrimary transition-colors duration-300"
-            >
-              <Store className="w-10 h-10 text-black hover:text-newPrimary transition-colors duration-300" />
-              <span>Wahid Foods SMC PVT.Ltd</span>
-            </Link>
-            <p className="text-black text-base leading-relaxed">
+   <footer className="bg-newPrimaryFooter border-t-2 py-12 md:py-16">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+      {/* Brand */}
+      <div className="space-y-6">
+        <Link
+          to="/"
+          className="flex items-center gap-3 font-bold text-3xl text-black hover:text-newPrimary transition-colors duration-300"
+        >
+          <Store className="w-10 h-10 text-black hover:text-newPrimary transition-colors duration-300" />
+          <span>Wahid Foods SMC PVT.Ltd</span>
+        </Link>
+        <p className="text-black text-base leading-relaxed">
+          Your premier destination for quality products and an exceptional shopping experience.
+        </p>
+      </div>
 
-              Your premier destination for quality products and an exceptional shopping experience.
-            </p>
-          </div>
 
           {/* Quick Links */}
           <div>
