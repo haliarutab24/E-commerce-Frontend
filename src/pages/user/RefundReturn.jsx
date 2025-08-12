@@ -43,8 +43,8 @@ const RefundReturn = () => {
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Eligibility for Returns</h2>
           <ul className="list-disc list-inside text-gray-800 space-y-1">
             <li>Returns, exchanges, or refunds are permitted only if the delivered goods are incorrect, defective, or damaged.</li>
-            <li>All returns must be shipped via courier to <span className="font-semibold">[Your Return Address]</span>.</li>
-            <li>Returns are accepted within <span className="font-semibold">[Number]</span> days from the date of your order placement.</li>
+            <li>All returns must be shipped via courier to <span className="font-semibold">Room no.1120, Goldcrest Mall, Phase 4,DHA,Lahore.</span>.</li>
+            <li>Returns are accepted within <span className="font-semibold">10</span> days from the date of your order placement.</li>
             <li>Returned goods must be in their original, saleable condition, unused, and with all packaging intact.</li>
           </ul>
         </div>
@@ -64,7 +64,7 @@ const RefundReturn = () => {
               href="mailto:support@wahidfoods.com"
               className="text-blue-700 underline"
             >
-              support@wahidfoods.com
+              www.wahidfoodssmc.com
             </a>.
           </p>
         </div>
