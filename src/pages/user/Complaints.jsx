@@ -48,10 +48,10 @@ const Complaints = () => {
               <strong>Contact Channels:</strong> Customers can reach out to us
               via email at{" "}
               <a
-                href="mailto:support@wahidfoods.com"
+                href="mailto:support@wahidfoodssmc.com"
                 className="text-green-700 font-medium underline"
               >
-               www.wahidfoodssmc.com
+              support@wahidfoodssmc.com
               </a>{" "}
               or call our dedicated helpline at{" "}
               <span className="font-bold text-green-700">+92 3106828888</span>.
