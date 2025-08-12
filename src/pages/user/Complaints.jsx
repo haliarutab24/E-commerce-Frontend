@@ -42,7 +42,7 @@ const Complaints = () => {
           address your concerns quickly and professionally.
         </p>
 
-        <div className="bg-green-50 border-l-4 border-newPrimary p-6 rounded-lg shadow-inner">
+        <div className="bg-newPrimary/20 border-l-4 border-newPrimary p-6 rounded-lg shadow-inner">
           <ul className="list-disc list-inside space-y-4 text-gray-700 text-lg">
             <li>
               <strong>Contact Channels:</strong> Customers can reach out to us
