@@ -36,7 +36,7 @@ const PrivacyPolicy = () => {
             Privacy Policy
           </h1>
           <p className="text-gray-800 mb-4 leading-relaxed">
-            At <span className="font-semibold text-green-700">Wahid Foods SMC</span>,
+            At <span className="font-semibold text-newPrimary">Wahid Foods SMC</span>,
             your privacy is important to us. This policy explains how we collect,
             use, and protect your personal data when you visit our website or
             purchase from us.
@@ -86,7 +86,7 @@ const PrivacyPolicy = () => {
             us at{" "}
             <a
               href="mailto:support@wahidfoodssmc.com"
-              className="text-green-700 underline"
+              className="text-newPrimary underline"
             >
              support@wahidfoodssmc.com
             </a>.
