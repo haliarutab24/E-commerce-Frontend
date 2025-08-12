@@ -35,7 +35,7 @@ const Footer = () => {
 
   return (
 
-    <footer className="h-96 bg-newPrimaryFooter min-h-screen my-20 border-t-2">
+    <footer className="h-96 bg-newPrimaryFooter max-h-screen my-20 border-t-2">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
