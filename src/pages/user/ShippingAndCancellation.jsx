@@ -21,7 +21,7 @@ const ShippingAndCancellation = () => {
   return (
     <div
       ref={sectionRef}
-      className="max-w-4xl my-10 mx-auto p-12 bg-white  rounded-2xl shadow-lg border border-gray-200"
+      className="max-w-4xl my-10 mx-auto p-12 bg-white  rounded-2xl shadow-lg border border-newPrimary"
     >
       <h2 className="text-3xl font-bold text-gray-900 mb-4">
         📦 Shipping Policy
