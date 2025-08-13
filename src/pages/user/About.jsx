@@ -84,7 +84,7 @@ const About = () => {
           className="max-w-2xl text-lg text-gray-700 text-center mb-8"
         >
 
-          WahidFoodsSMC is your one-stop destination for premium electronics, fashion, home essentials, and more.
+          WahidFoodsSMC is your one-stop destination for Premium Quality Products, home essentials, and more.
           We are committed to providing a seamless and enjoyable shopping experience, with a focus on quality, value, and customer satisfaction.
         </motion.p>
 
