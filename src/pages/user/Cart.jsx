@@ -11,7 +11,7 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem('userInfo'));
+  const user = JSON.parse(localStorage.getItem("userInfo"));
   const userId = user?.id || user?._id;
 
   useEffect(() => {
@@ -24,22 +24,26 @@ const Cart = () => {
         return;
       }
       try {
-        const cartRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/cart/${userId}`);
-        console.log("cartRes",cartRes);
+        const cartRes = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/cart/${userId}`
+        );
+        console.log("cartRes", cartRes);
         const cart = cartRes.data;
 
         // If your backend returns { success: true, data: { items: [...] } }
         const items = cart.items || cart.data?.items || [];
 
         // Now map over items
-        const cartWithDetails = items.map(cartItem => {
-          const product = cartItem.productId;
-          if (!product) {
-            console.warn(`❌ Product not found for cartItem:`, cartItem);
-            return null;
-          }
-          return { ...product, quantity: cartItem.quantity };
-        }).filter(Boolean);
+        const cartWithDetails = items
+          .map((cartItem) => {
+            const product = cartItem.productId;
+            if (!product) {
+              console.warn(`❌ Product not found for cartItem:`, cartItem);
+              return null;
+            }
+            return { ...product, quantity: cartItem.quantity };
+          })
+          .filter(Boolean);
 
         setCartItems(cartWithDetails);
       } catch (error) {
@@ -58,42 +62,45 @@ const Cart = () => {
     setCheckoutLoading(true);
     try {
       const metadata = {
-        userId: user ? String(user.id || user._id) : '',
+        userId: user ? String(user.id || user._id) : "",
         products: JSON.stringify(cartItems),
       };
-  
+
       // ✅ choose correct backend endpoint
       const endpoint =
         paymentMethod === "safepay"
-          ? `${import.meta.env.VITE_API_BASE_URL}/transactions/safepay-checkout-session`
-          : `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`;
-  
+          ? `${
+              import.meta.env.VITE_API_BASE_URL
+            }/transactions/safepay-checkout-session`
+          : `${
+              import.meta.env.VITE_API_BASE_URL
+            }/transactions/create-checkout-session`;
+
       console.log("Payment Endpoint", endpoint);
-          
+
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user ? String(user.id || user._id) : '',
+          userId: user ? String(user.id || user._id) : "",
           items: cartItems.map((item) => ({
             name: item.name,
             image: item.images?.[0]?.url,
             price: item.price,
             quantity: item.quantity,
           })),
-          success_url: `${window.location.origin}/success`,
-          cancel_url: `${window.location.origin}/cancel`,
+          success_url: "https://www.wahidfoodssmc.com/success",
+          cancel_url: "https://www.wahidfoodssmc.com/cancel",
           metadata,
         }),
       });
-  
+
       const data = await response.json();
 
       console.log("Payment Data Response", data);
-      
-  
+
       if (data?.url) {
         window.location.href = data.url; // redirect to Stripe or Safepay checkout
       } else {
@@ -106,7 +113,6 @@ const Cart = () => {
       setCheckoutLoading(false);
     }
   };
-  
 
   // const handleCheckout = async () => {
   //   setCheckoutLoading(true);
@@ -153,12 +159,17 @@ const Cart = () => {
   //   }
   // };
 
-
   const handleQuantityChange = (productId, delta) => {
-    setCartItems(prev =>
-      prev.map(item =>
+    setCartItems((prev) =>
+      prev.map((item) =>
         item._id === productId
-          ? { ...item, quantity: Math.max(1, Math.min(item.quantity + delta, item.stock)) }
+          ? {
+              ...item,
+              quantity: Math.max(
+                1,
+                Math.min(item.quantity + delta, item.stock)
+              ),
+            }
           : item
       )
     );
@@ -167,18 +178,21 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
-      const userId = user ? String(user.id || user._id) : '';
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/cart/remove`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add authorization header if needed
-        },
-        body: JSON.stringify({ userId, productId }),
-      });
-console.log("response",response);
+      const userId = user ? String(user.id || user._id) : "";
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/cart/remove`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Add authorization header if needed
+          },
+          body: JSON.stringify({ userId, productId }),
+        }
+      );
+      console.log("response", response);
       if (response.ok) {
-        setCartItems(prev => prev.filter(item => item._id !== productId));
+        setCartItems((prev) => prev.filter((item) => item._id !== productId));
         toast.info("Item removed from cart");
       } else {
         toast.error("Failed to remove item from cart");
@@ -203,7 +217,6 @@ console.log("response",response);
 
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
-
       <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">
         Your Cart
       </h1>
@@ -212,13 +225,11 @@ console.log("response",response);
           Your cart is empty.
           <div className="mt-4">
             <Link
-
               to="/products"
               className="px-4 py-2 bg-newPrimary text-white rounded hover:bg-newPrimaryDark"
             >
               Shop Now
             </Link>
-
           </div>
         </div>
       ) : (
