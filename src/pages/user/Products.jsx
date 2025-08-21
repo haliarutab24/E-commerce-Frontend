@@ -175,7 +175,7 @@ const Products = () => {
               ref={el => (cardsRef.current[idx] = el)}
               className="bg-white rounded-lg cursor-pointer shadow hover:shadow-lg transition flex flex-col"
             >
-              <img
+             <img
                 src={product.images?.[0]?.url}
                 alt={product.name}
                 className="w-full h-48 object-cover rounded-t"

@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
-import { loadStripe } from "@stripe/stripe-js";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -55,52 +54,105 @@ const Cart = () => {
     fetchCart();
   }, [userId]);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (paymentMethod = "stripe") => {
     setCheckoutLoading(true);
     try {
       const metadata = {
         userId: user ? String(user.id || user._id) : '',
         products: JSON.stringify(cartItems),
       };
-
-      // const stripe = await loadStripe('pk_test_51RCbym06lnKgfmZllfMOsMHVzBLEnIcbrlQUvljCNulwZcebY1bCMQJ1qIs3SS9G0dgQlAFIjhH20pAfloKcFvid00rG10oCCi');
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user ? String(user.id || user._id) : '',
-            items: cartItems.map((item) => ({
-              name: item.name,
-              image: item.images?.[0]?.url,
-              price: item.price ,
-              quantity: item.quantity,
-            })),
-            success_url: `${window.location.origin}/success`,
-            cancel_url: `${window.location.origin}/cart`,
-            metadata,
-          }),
-        }
-      );
-
+  
+      // ✅ choose correct backend endpoint
+      const endpoint =
+        paymentMethod === "safepay"
+          ? `${import.meta.env.VITE_API_BASE_URL}/transactions/safepay-checkout-session`
+          : `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`;
+  
+      console.log("Payment Endpoint", endpoint);
+          
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user ? String(user.id || user._id) : '',
+          items: cartItems.map((item) => ({
+            name: item.name,
+            image: item.images?.[0]?.url,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+          success_url: `${window.location.origin}/success`,
+          cancel_url: `${window.location.origin}/cancel`,
+          metadata,
+        }),
+      });
+  
       const data = await response.json();
 
+      console.log("Payment Data Response", data);
+      
+  
       if (data?.url) {
-        window.location.href = data.url;
+        window.location.href = data.url; // redirect to Stripe or Safepay checkout
       } else {
-        toast.error("Stripe checkout failed");
+        toast.error(`${paymentMethod} checkout failed`);
         setCheckoutLoading(false);
       }
     } catch (error) {
-      console.error("Stripe Checkout Error:", error);
+      console.error(`${paymentMethod} Checkout Error:`, error);
       toast.error("Something went wrong during checkout.");
       setCheckoutLoading(false);
     }
   };
+  
+
+  // const handleCheckout = async () => {
+  //   setCheckoutLoading(true);
+  //   try {
+  //     const metadata = {
+  //       userId: user ? String(user.id || user._id) : '',
+  //       products: JSON.stringify(cartItems),
+  //     };
+
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           userId: user ? String(user.id || user._id) : '',
+  //           items: cartItems.map((item) => ({
+  //             name: item.name,
+  //             image: item.images?.[0]?.url,
+  //             price: item.price ,
+  //             quantity: item.quantity,
+  //           })),
+  //           success_url: `${window.location.origin}/success`,
+  //           cancel_url: `${window.location.origin}/cart`,
+  //           metadata,
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data?.url) {
+  //       window.location.href = data.url;
+  //     } else {
+  //       toast.error("Stripe checkout failed");
+  //       setCheckoutLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Stripe Checkout Error:", error);
+  //     toast.error("Something went wrong during checkout.");
+  //     setCheckoutLoading(false);
+  //   }
+  // };
+
 
   const handleQuantityChange = (productId, delta) => {
     setCartItems(prev =>
@@ -251,7 +303,7 @@ console.log("response",response);
               </div>
 
               <button
-                onClick={handleCheckout}
+                onClick={() => handleCheckout("safepay")}
                 className="block mt-6 w-full text-center bg-newPrimary text-white py-2 rounded hover:bg-newPrimaryDark font-semibold disabled:opacity-50"
                 disabled={checkoutLoading}
               >
