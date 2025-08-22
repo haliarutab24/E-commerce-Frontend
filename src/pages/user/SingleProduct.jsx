@@ -132,7 +132,7 @@ const SingleProduct = () => {
       {/* Product Details */}
       <div className="flex-1">
         <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-        <p className="text-newPrimary text-2xl font-semibold mb-2">${product.price}</p>
+        <p className="text-newPrimary text-2xl font-semibold mb-2">Rs.{product.price}</p>
 
         {/* Category badges with random colors */}
         <div className="mb-4 flex flex-wrap gap-2">

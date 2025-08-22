@@ -101,7 +101,7 @@ const Orders = () => {
                   <td className="py-2 px-4">
                     {order.products.reduce((sum, prod) => sum + (prod.quantity || 1), 0)}
                   </td>
-                  <td className="py-2 px-4">${order.totalAmount.toFixed(2)}</td>
+                  <td className="py-2 px-4">Rs.{order.totalAmount.toFixed(2)}</td>
                   <td className="py-2 px-4">{order.formattedDate}</td>
                   <td className={`py-2 px-4 font-semibold ${statusColor(order.paymentStatus)}`}>
                     {order.paymentStatus}

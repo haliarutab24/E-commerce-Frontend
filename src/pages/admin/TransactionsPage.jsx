@@ -130,7 +130,7 @@ const TransactionsPage = () => {
                     <td className="py-2 px-4">{txn.transactionId.slice(0, 20)}</td>
                     <td className="py-2 px-4">{(txn.userId || "N/A").toString().slice(0, 10)}</td>
                     <td className="py-2 px-4">{prod.name}</td>
-                    <td className="py-2 px-4">${txn.totalAmount}</td>
+                    <td className="py-2 px-4">Rs.{txn.totalAmount}</td>
                     <td className="py-2 px-4">
                       <span 
                         className={`px-3 py-1 rounded-full text-xs font-semibold
