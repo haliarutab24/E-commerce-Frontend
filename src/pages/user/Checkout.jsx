@@ -110,7 +110,7 @@ const Checkout = () => {
             disabled={loading}
             className="w-full bg-primary text-white py-2 rounded font-semibold mt-4 hover:bg-primary-dark transition"
           >
-            {loading ? "Processing..." : `Pay Rs.${subtotal}`}
+            {loading ? "Processing..." : `Pay $${subtotal}`}
           </button>
         </form>
       </div>
@@ -131,13 +131,13 @@ const Checkout = () => {
                   Qty: {item.quantity}
                 </div>
               </div>
-              <div className="font-semibold">Rs.{item.price * item.quantity}</div>
+              <div className="font-semibold">${item.price * item.quantity}</div>
             </li>
           ))}
         </ul>
         <div className="flex justify-between mt-6 font-bold text-lg border-t pt-4">
           <span>Total</span>
-          <span>Rs.{subtotal.toFixed(2)}</span>
+          <span>${subtotal.toFixed(2)}</span>
         </div>
       </div>
     </div>

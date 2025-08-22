@@ -269,7 +269,7 @@ const ProductsPage = () => {
                         <img src={product.images?.[0]?.url || 'https://via.placeholder.com/40'} alt={product.name} className="w-10 h-10 object-cover rounded"/>
                       </td>
                       <td className="py-2 px-4 font-medium">{product.name}</td>
-                      <td className="py-2 px-4">Rs.{product.price.toFixed(2)}</td>
+                      <td className="py-2 px-4">${product.price.toFixed(2)}</td>
                       <td className="py-2 px-4">
                         {product.category?.map(cat => cat.name).join(', ') || 'N/A'}
                       </td>
