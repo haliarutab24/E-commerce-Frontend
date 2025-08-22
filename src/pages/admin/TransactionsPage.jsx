@@ -104,7 +104,7 @@ const TransactionsPage = () => {
         Showing {indexOfFirstTransaction + 1} to {Math.min(indexOfLastTransaction, transactions.length)} of {transactions.length} transactions
       </div>
       
-      <div className="bg-white rounded shadow p-6 max-w-6xl mx-auto overflow-x-auto">
+      <div className="bg-white rounded shadow p-6 w-full mx-4 overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead>
             <tr className="bg-gray-100">

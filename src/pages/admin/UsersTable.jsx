@@ -72,11 +72,11 @@ const UsersTable = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10 min-h-screen">
+    <div className="w-full mx-auto px-4 py-10 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-primary text-center">
-        Users Table
+        All Users
       </h1>
-      <div className="bg-white rounded shadow p-6 max-w-4xl mx-auto overflow-x-auto">
+      <div className="bg-white rounded shadow p-6 w-full mx-4 ">
         <table className="min-w-full text-sm">
           <thead>
             <tr className="bg-gray-100">
