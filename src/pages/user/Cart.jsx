@@ -10,6 +10,8 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]); // [{product, quantity}]
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [stepUpUrl, setStepUpUrl] = useState(null);
+
 
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const userId = user?.id || user?._id;
@@ -58,106 +60,73 @@ const Cart = () => {
     fetchCart();
   }, [userId]);
 
-  const handleCheckout = async (paymentMethod = "stripe") => {
-    setCheckoutLoading(true);
-    try {
-      const metadata = {
+
+  // Handle Checkout session
+const handleCheckout = async (paymentMethod = "stripe") => {
+  setCheckoutLoading(true);
+  try {
+    const metadata = {
+      userId: user ? String(user.id || user._id) : "",
+      products: JSON.stringify(cartItems),
+    };
+
+    // ✅ choose correct backend endpoint
+    const endpoint =
+      paymentMethod === "safepay"
+        ? `${import.meta.env.VITE_API_BASE_URL}/transactions/safepay-checkout-session`
+        : `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`;
+
+    console.log("Payment Endpoint", endpoint);
+
+    // ✅ Safepay requires device fingerprint before calling backend
+    let deviceFingerprintId = null;
+    if (paymentMethod === "safepay" && window.Safepay) {
+      deviceFingerprintId = window.Safepay.deviceDataCollector();
+      console.log("Safepay deviceFingerprintId:", deviceFingerprintId);
+    }
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         userId: user ? String(user.id || user._id) : "",
-        products: JSON.stringify(cartItems),
-      };
+        items: cartItems.map((item) => ({
+          name: item.name,
+          image: item.images?.[0]?.url,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        success_url: "https://www.wahidfoodssmc.com/success",
+        cancel_url: "https://www.wahidfoodssmc.com/cancel",
+        metadata,
+        deviceFingerprintId, // ✅ send to backend only for safepay
+      }),
+    });
 
-      // ✅ choose correct backend endpoint
-      const endpoint =
-        paymentMethod === "safepay"
-          ? `${
-              import.meta.env.VITE_API_BASE_URL
-            }/transactions/safepay-checkout-session`
-          : `${
-              import.meta.env.VITE_API_BASE_URL
-            }/transactions/create-checkout-session`;
+    const data = await response.json();
+    console.log("Payment Data Response", data);
 
-      console.log("Payment Endpoint", endpoint);
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user ? String(user.id || user._id) : "",
-          items: cartItems.map((item) => ({
-            name: item.name,
-            image: item.images?.[0]?.url,
-            price: item.price,
-            quantity: item.quantity,
-          })),
-          success_url: "https://www.wahidfoodssmc.com/success",
-          cancel_url: "https://www.wahidfoodssmc.com/cancel",
-          metadata,
-        }),
-      });
-
-      const data = await response.json();
-
-      console.log("Payment Data Response", data);
-
-      if (data?.url) {
-        window.location.href = data.url; // redirect to Stripe or Safepay checkout
-      } else {
-        toast.error(`${paymentMethod} checkout failed`);
-        setCheckoutLoading(false);
-      }
-    } catch (error) {
-      console.error(`${paymentMethod} Checkout Error:`, error);
-      toast.error("Something went wrong during checkout.");
+    if (data?.step_up_url) {
+      // 🚀 3D Secure step required (international cards)
+      setStepUpUrl(data.step_up_url);
+      setCheckoutLoading(false);
+    } else if (data?.url) {
+      // Normal flow (Stripe or Safepay with local PK cards)
+      window.location.href = data.url;
+    } else {
+      toast.error(`${paymentMethod} checkout failed`);
       setCheckoutLoading(false);
     }
-  };
+  } catch (error) {
+    console.error(`${paymentMethod} Checkout Error:`, error);
+    toast.error("Something went wrong during checkout.");
+    setCheckoutLoading(false);
+  }
+};
 
-  // const handleCheckout = async () => {
-  //   setCheckoutLoading(true);
-  //   try {
-  //     const metadata = {
-  //       userId: user ? String(user.id || user._id) : '',
-  //       products: JSON.stringify(cartItems),
-  //     };
 
-  //     const response = await fetch(
-  //       `${import.meta.env.VITE_API_BASE_URL}/transactions/create-checkout-session`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           userId: user ? String(user.id || user._id) : '',
-  //           items: cartItems.map((item) => ({
-  //             name: item.name,
-  //             image: item.images?.[0]?.url,
-  //             price: item.price ,
-  //             quantity: item.quantity,
-  //           })),
-  //           success_url: `${window.location.origin}/success`,
-  //           cancel_url: `${window.location.origin}/cart`,
-  //           metadata,
-  //         }),
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (data?.url) {
-  //       window.location.href = data.url;
-  //     } else {
-  //       toast.error("Stripe checkout failed");
-  //       setCheckoutLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("Stripe Checkout Error:", error);
-  //     toast.error("Something went wrong during checkout.");
-  //     setCheckoutLoading(false);
-  //   }
-  // };
 
   const handleQuantityChange = (productId, delta) => {
     setCartItems((prev) =>
@@ -216,7 +185,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 min-h-screen">
+      <div className="container mx-auto px-4 py-8 min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-center text-newPrimary">
         Your Cart
       </h1>
@@ -328,6 +297,27 @@ const Cart = () => {
                 )}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🔐 Step-Up 3D Secure Authentication Modal */}
+      {stepUpUrl && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-white rounded-lg shadow-xl p-4">
+            <iframe
+              src={stepUpUrl}
+              width="400"
+              height="400"
+              title="3D Secure Authentication"
+              className="rounded-lg"
+            />
+            <button
+              onClick={() => setStepUpUrl(null)}
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
