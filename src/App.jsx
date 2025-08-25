@@ -37,6 +37,8 @@ import Complaints from "./pages/user/Complaints";
 import PrivacyPolicy from "./pages/user/PrivacyPolicy";
 import RefundReturn from "./pages/user/RefundReturn";
 import TermsConditions from "./pages/user/TermsConditions";
+import PaymentSuccess from "./pages/user/PaymentSuccess ";
+
 
 function AppContent() {
   const location = useLocation();
@@ -57,6 +59,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<SingleProduct />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
