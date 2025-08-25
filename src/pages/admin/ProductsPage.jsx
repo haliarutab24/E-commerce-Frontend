@@ -144,8 +144,8 @@ const ProductsPage = () => {
     e.preventDefault();
 
     // --- 1. VALIDATION FIRST ---
-    if (Number(editFormState.price) < 100) {
-      toast.error("Price must be greater than 100.");
+    if (Number(editFormState.price) < 10) {
+      toast.error("Price must be greater than 10.");
       return; // Stop here. `editLoading` is still false.
     }
 
